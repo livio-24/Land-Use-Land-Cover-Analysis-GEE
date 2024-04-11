@@ -12,7 +12,7 @@ var roi =
           [8.803167429792586, 45.27447682040372],
           [9.61752900205821, 45.27447682040372],
           [9.61752900205821, 45.69714087137378]]], null, false),
-    imageVisParam = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.8321419775485992,"max":1.419758039712906,"gamma":1};
+    trueColVis = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.8321419775485992,"max":1.419758039712906,"gamma":1};
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 function maskClouds(image) {
   // Bits 3 and 5 are cloud shadow and cloud, respectively.
@@ -25,15 +25,32 @@ function maskClouds(image) {
       .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
   // Return the masked image, scaled to reflectance, without the QA bands.
   return image.updateMask(mask).divide(10000)
+      .select("SR_B[0-9]*")
       .copyProperties(image, ["system:time_start"]);
 }
+
+// spectral indices
+var indices = function(img){
+  var ndvi = img.normalizedDifference(['SR_B5', 'SR_B4']).rename('NDVI')
+  var ndbi = img.normalizedDifference(['SR_B6', 'SR_B5']).rename('NDBI')
+  var gndvi = img.normalizedDifference(['SR_B6', 'SR_B3']).rename('GNDVI')
+  
+  return img.addBands(ndvi).addBands(ndbi).addBands(gndvi)
+}
+
+
 var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
-         .filterDate("2023-01-01", "2023-12-12")
+         .filterDate("2023-01-01", "2023-12-30")
          .filterMetadata("CLOUD_COVER", "less_than", 30)
          .map(maskClouds)
+         .map(indices)
          .median()
          .clip(roi);
-         
+
+  
 print(l8)
-         
-Map.addLayer(l8, {}, 'Natural colour')
+
+Map.addLayer(l8, trueColVis, 'Natural colour')
+Map.addLayer(l8.select('NDVI'), {min: -1, max: 1, palette: ['white', 'green']}, 'NDVI')
+Map.addLayer(l8.select('NDBI'), {min: -1, max: 1, palette: ['white', 'red']}, 'NDBI')
+
