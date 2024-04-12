@@ -1,22 +1,5161 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var roi2 = 
-    /* color: #d63000 */
-    /* shown: false */
-    /* displayProperties: [
-      {
-        "type": "rectangle"
-      }
-    ] */
-    ee.Geometry.Polygon(
-        [[[8.803167429792586, 45.69714087137378],
-          [8.803167429792586, 45.27447682040372],
-          [9.61752900205821, 45.27447682040372],
-          [9.61752900205821, 45.69714087137378]]], null, false),
-    trueColVis = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.8321419775485992,"max":1.419758039712906,"gamma":1},
+var trueColVis = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.8321419775485992,"max":1.419758039712906,"gamma":1},
     ndbiVis = {"opacity":1,"bands":["NDBI"],"min":-0.13909015748649836,"max":0.011268583498895167,"palette":["ffffff","ff0000"]},
     ndviVis = {"opacity":1,"bands":["NDVI"],"min":0.054412869438529014,"max":0.40175328992307185,"palette":["ffffff","008000"]},
     roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary"),
-    dem = ee.Image("CGIAR/SRTM90_V4");
+    dem = ee.Image("CGIAR/SRTM90_V4"),
+    urban = 
+    /* color: #d63000 */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([9.186920649694827, 45.47028986377386]),
+            {
+              "Class": 0,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.167522914099123, 45.4705306283036]),
+            {
+              "Class": 0,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174217707800295, 45.467159831296094]),
+            {
+              "Class": 0,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.141087062048342, 45.472336329493906]),
+            {
+              "Class": 0,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.13988543240967, 45.471975193883985]),
+            {
+              "Class": 0,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.13988543240967, 45.47101215427762]),
+            {
+              "Class": 0,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.137825495886233, 45.47016948112332]),
+            {
+              "Class": 0,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.171471125769045, 45.46836371051092]),
+            {
+              "Class": 0,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.172157771276858, 45.46571514229853]),
+            {
+              "Class": 0,
+              "system:index": "8"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.17061281888428, 45.467159831296094]),
+            {
+              "Class": 0,
+              "system:index": "9"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.165462977575686, 45.46944717982057]),
+            {
+              "Class": 0,
+              "system:index": "10"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.163231379675295, 45.466317100547094]),
+            {
+              "Class": 0,
+              "system:index": "11"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.173531062292483, 45.48148432640988]),
+            {
+              "Class": 0,
+              "system:index": "12"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.175419337438967, 45.4787160103723]),
+            {
+              "Class": 0,
+              "system:index": "13"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.171127803015139, 45.47979928067236]),
+            {
+              "Class": 0,
+              "system:index": "14"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.166149623083498, 45.4832896766342]),
+            {
+              "Class": 0,
+              "system:index": "15"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.172157771276858, 45.45295211479066]),
+            {
+              "Class": 0,
+              "system:index": "16"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.172672755407717, 45.45126621593072]),
+            {
+              "Class": 0,
+              "system:index": "17"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174732691931155, 45.452350013840196]),
+            {
+              "Class": 0,
+              "system:index": "18"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.172501094030764, 45.450664096981754]),
+            {
+              "Class": 0,
+              "system:index": "19"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213184840368655, 45.46390922898483]),
+            {
+              "Class": 0,
+              "system:index": "20"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.210266596960452, 45.46270525463572]),
+            {
+              "Class": 0,
+              "system:index": "21"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208206660437014, 45.47450309455804]),
+            {
+              "Class": 0,
+              "system:index": "22"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.204086787390139, 45.476067928628346]),
+            {
+              "Class": 0,
+              "system:index": "23"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.214901454138186, 45.484011800525565]),
+            {
+              "Class": 0,
+              "system:index": "24"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.20906496732178, 45.482928611217446]),
+            {
+              "Class": 0,
+              "system:index": "25"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.206833369421389, 45.48052144930212]),
+            {
+              "Class": 0,
+              "system:index": "26"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.186920649694827, 45.46077884219622]),
+            {
+              "Class": 0,
+              "system:index": "27"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.18657732694092, 45.459093177316355]),
+            {
+              "Class": 0,
+              "system:index": "28"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.180397517370608, 45.459815611292896]),
+            {
+              "Class": 0,
+              "system:index": "29"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.17335940091553, 45.4592135836219]),
+            {
+              "Class": 0,
+              "system:index": "30"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.152760035681155, 45.46282565322769]),
+            {
+              "Class": 0,
+              "system:index": "31"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.15138674466553, 45.46114004954246]),
+            {
+              "Class": 0,
+              "system:index": "32"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.145721919226077, 45.46487238995147]),
+            {
+              "Class": 0,
+              "system:index": "33"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.147095210241702, 45.47341972243926]),
+            {
+              "Class": 0,
+              "system:index": "34"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174732691931155, 45.43452491456768]),
+            {
+              "Class": 0,
+              "system:index": "35"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.176277644323733, 45.43380215661707]),
+            {
+              "Class": 0,
+              "system:index": "36"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174904353308108, 45.43307938940998]),
+            {
+              "Class": 0,
+              "system:index": "37"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.17833758084717, 45.44078842906378]),
+            {
+              "Class": 0,
+              "system:index": "38"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.180225855993655, 45.44030664494022]),
+            {
+              "Class": 0,
+              "system:index": "39"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.180397517370608, 45.43946351282479]),
+            {
+              "Class": 0,
+              "system:index": "40"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.178509242224123, 45.43994530414778]),
+            {
+              "Class": 0,
+              "system:index": "41"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.22005129544678, 45.43560903413775]),
+            {
+              "Class": 0,
+              "system:index": "42"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.221767909216311, 45.43717494785913]),
+            {
+              "Class": 0,
+              "system:index": "43"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.220566279577639, 45.43536812047761]),
+            {
+              "Class": 0,
+              "system:index": "44"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.233612544226077, 45.45114579265518]),
+            {
+              "Class": 0,
+              "system:index": "45"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.234127528356936, 45.4504232476023]),
+            {
+              "Class": 0,
+              "system:index": "46"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.253696925329592, 45.45090494533272]),
+            {
+              "Class": 0,
+              "system:index": "47"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.256271845983889, 45.449821119654075]),
+            {
+              "Class": 0,
+              "system:index": "48"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.20305681912842, 45.4894274346694]),
+            {
+              "Class": 0,
+              "system:index": "49"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.201340205358889, 45.48726124349116]),
+            {
+              "Class": 0,
+              "system:index": "50"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.200996882604983, 45.48690020352897]),
+            {
+              "Class": 0,
+              "system:index": "51"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.189152247595217, 45.48750193551371]),
+            {
+              "Class": 0,
+              "system:index": "52"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.186405665563967, 45.48641881331307]),
+            {
+              "Class": 0,
+              "system:index": "53"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.152760035681155, 45.49544419528984]),
+            {
+              "Class": 0,
+              "system:index": "54"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.151730067419436, 45.495203537206564]),
+            {
+              "Class": 0,
+              "system:index": "55"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.089931971716311, 45.461862457292725]),
+            {
+              "Class": 0,
+              "system:index": "56"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.089588648962405, 45.46005642056143]),
+            {
+              "Class": 0,
+              "system:index": "57"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.089245326208498, 45.45885236393389]),
+            {
+              "Class": 0,
+              "system:index": "58"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.08821535794678, 45.45825032597807]),
+            {
+              "Class": 0,
+              "system:index": "59"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09044695584717, 45.457407462040884]),
+            {
+              "Class": 0,
+              "system:index": "60"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.093880183386233, 45.45716664145902]),
+            {
+              "Class": 0,
+              "system:index": "61"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.094910151647952, 45.46126045147696]),
+            {
+              "Class": 0,
+              "system:index": "62"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.091133601354983, 45.46679866251779]),
+            {
+              "Class": 0,
+              "system:index": "63"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.069504267858889, 45.45078452128581]),
+            {
+              "Class": 0,
+              "system:index": "64"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.06898928372803, 45.449821119654075]),
+            {
+              "Class": 0,
+              "system:index": "65"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.069675929235842, 45.449339412667285]),
+            {
+              "Class": 0,
+              "system:index": "66"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09044695584717, 45.4761882986801]),
+            {
+              "Class": 0,
+              "system:index": "67"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.089073664831545, 45.474984586592434]),
+            {
+              "Class": 0,
+              "system:index": "68"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.089588648962405, 45.47426234699814]),
+            {
+              "Class": 0,
+              "system:index": "69"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.26399660794678, 45.44331772821757]),
+            {
+              "Class": 0,
+              "system:index": "70"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.263653285192873, 45.44259508288702]),
+            {
+              "Class": 0,
+              "system:index": "71"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.265884883093264, 45.44223375675057]),
+            {
+              "Class": 0,
+              "system:index": "72"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.265369898962405, 45.43994530414778]),
+            {
+              "Class": 0,
+              "system:index": "73"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.265198237585452, 45.438138565473885]),
+            {
+              "Class": 0,
+              "system:index": "74"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.24477053372803, 45.432236149302575]),
+            {
+              "Class": 0,
+              "system:index": "75"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.245113856481936, 45.43115196493721]),
+            {
+              "Class": 0,
+              "system:index": "76"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.246487147497561, 45.43030869603187]),
+            {
+              "Class": 0,
+              "system:index": "77"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.155163294958498, 45.44608778290094]),
+            {
+              "Class": 0,
+              "system:index": "78"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.155163294958498, 45.44488342801245]),
+            {
+              "Class": 0,
+              "system:index": "79"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.152073390173342, 45.44548560867072]),
+            {
+              "Class": 0,
+              "system:index": "80"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.153446681188967, 45.44512430104711]),
+            {
+              "Class": 0,
+              "system:index": "81"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134478099035647, 45.441812206666626]),
+            {
+              "Class": 0,
+              "system:index": "82"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.137997157263186, 45.44078842906378]),
+            {
+              "Class": 0,
+              "system:index": "83"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.136709696936038, 45.44000552777388]),
+            {
+              "Class": 0,
+              "system:index": "84"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.133877284216311, 45.44072820627332]),
+            {
+              "Class": 0,
+              "system:index": "85"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.13413477628174, 45.44030664494022]),
+            {
+              "Class": 0,
+              "system:index": "86"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.12941408841553, 45.43946351282479]),
+            {
+              "Class": 0,
+              "system:index": "87"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.127268321203616, 45.43868059315059]),
+            {
+              "Class": 0,
+              "system:index": "88"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.108385569738772, 45.46216345779011]),
+            {
+              "Class": 0,
+              "system:index": "89"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.108643061804202, 45.46107984847877]),
+            {
+              "Class": 0,
+              "system:index": "90"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.110874659704592, 45.46107984847877]),
+            {
+              "Class": 0,
+              "system:index": "91"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.108986384558108, 45.459815611292896]),
+            {
+              "Class": 0,
+              "system:index": "92"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.235243327307131, 45.50669381276296]),
+            {
+              "Class": 0,
+              "system:index": "93"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.234213359045413, 45.50488921267259]),
+            {
+              "Class": 0,
+              "system:index": "94"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.23575831143799, 45.50525013731871]),
+            {
+              "Class": 0,
+              "system:index": "95"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.251379496740725, 45.51030283939232]),
+            {
+              "Class": 0,
+              "system:index": "96"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.248632914709475, 45.508738956263905]),
+            {
+              "Class": 0,
+              "system:index": "97"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.242109782385256, 45.504648594956265]),
+            {
+              "Class": 0,
+              "system:index": "98"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.240393168615725, 45.503806424850076]),
+            {
+              "Class": 0,
+              "system:index": "99"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.179968363928225, 45.5032048670608]),
+            {
+              "Class": 0,
+              "system:index": "100"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.179625041174319, 45.50224236122807]),
+            {
+              "Class": 0,
+              "system:index": "101"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.179281718420413, 45.50212204684195]),
+            {
+              "Class": 0,
+              "system:index": "102"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174990183996584, 45.50416735643828]),
+            {
+              "Class": 0,
+              "system:index": "103"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.172930247473147, 45.504047046166]),
+            {
+              "Class": 0,
+              "system:index": "104"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.1731019088501, 45.5035658025057]),
+            {
+              "Class": 0,
+              "system:index": "105"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.173788554357913, 45.503806424850076]),
+            {
+              "Class": 0,
+              "system:index": "106"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.16263056485596, 45.502603302843724]),
+            {
+              "Class": 0,
+              "system:index": "107"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.163145548986819, 45.501039205796886]),
+            {
+              "Class": 0,
+              "system:index": "108"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.164518840002444, 45.50115952249702]),
+            {
+              "Class": 0,
+              "system:index": "109"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.164003855871584, 45.50043761843949]),
+            {
+              "Class": 0,
+              "system:index": "110"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.16434717862549, 45.49995634392554]),
+            {
+              "Class": 0,
+              "system:index": "111"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.168467051672366, 45.49851249570066]),
+            {
+              "Class": 0,
+              "system:index": "112"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.168467051672366, 45.497670233804676]),
+            {
+              "Class": 0,
+              "system:index": "113"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.168982035803225, 45.496226326957675]),
+            {
+              "Class": 0,
+              "system:index": "114"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.171213633703616, 45.49694828500926]),
+            {
+              "Class": 0,
+              "system:index": "115"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.201597697424319, 45.46469179852369]),
+            {
+              "Class": 0,
+              "system:index": "116"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199366099523928, 45.45533582203687]),
+            {
+              "Class": 0,
+              "system:index": "117"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.201597697424319, 45.45352957624883]),
+            {
+              "Class": 0,
+              "system:index": "118"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199022776770022, 45.450157762657405]),
+            {
+              "Class": 0,
+              "system:index": "119"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196447856115725, 45.449435204947115]),
+            {
+              "Class": 0,
+              "system:index": "120"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199366099523928, 45.44799006175735]),
+            {
+              "Class": 0,
+              "system:index": "121"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.202112681555178, 45.449676058545684]),
+            {
+              "Class": 0,
+              "system:index": "122"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.220652110266116, 45.464245787892615]),
+            {
+              "Class": 0,
+              "system:index": "123"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.219622142004397, 45.46231942809251]),
+            {
+              "Class": 0,
+              "system:index": "124"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.222472350023358, 45.46292142260086]),
+            {
+              "Class": 0,
+              "system:index": "125"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21903137670132, 45.47953393403553]),
+            {
+              "Class": 0,
+              "system:index": "126"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.218001408439601, 45.477848829967385]),
+            {
+              "Class": 0,
+              "system:index": "127"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.217143101554836, 45.47652478427437]),
+            {
+              "Class": 0,
+              "system:index": "128"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.221949620109523, 45.479469423923064]),
+            {
+              "Class": 0,
+              "system:index": "129"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.12092689977261, 45.497581130644306]),
+            {
+              "Class": 0,
+              "system:index": "130"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.121098561149562, 45.4963778756056]),
+            {
+              "Class": 0,
+              "system:index": "131"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.121441883903469, 45.49613722151247]),
+            {
+              "Class": 0,
+              "system:index": "132"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.123587651115383, 45.49649820226647]),
+            {
+              "Class": 0,
+              "system:index": "133"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.124617619377101, 45.496438038968186]),
+            {
+              "Class": 0,
+              "system:index": "134"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.124016804557765, 45.49589656639089]),
+            {
+              "Class": 0,
+              "system:index": "135"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.121956868034328, 45.49529492408743]),
+            {
+              "Class": 0,
+              "system:index": "136"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.121699375968898, 45.494873770650415]),
+            {
+              "Class": 0,
+              "system:index": "137"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.123587651115383, 45.49439244857997]),
+            {
+              "Class": 0,
+              "system:index": "138"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.107623143058742, 45.49348995860974]),
+            {
+              "Class": 0,
+              "system:index": "139"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.107966465812648, 45.49258745417679]),
+            {
+              "Class": 0,
+              "system:index": "140"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.110026402336086, 45.49216628049195]),
+            {
+              "Class": 0,
+              "system:index": "141"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.112343830924953, 45.49222644835406]),
+            {
+              "Class": 0,
+              "system:index": "142"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.11191467748257, 45.49210611256558]),
+            {
+              "Class": 0,
+              "system:index": "143"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100756687980617, 45.498303071326]),
+            {
+              "Class": 0,
+              "system:index": "144"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.101357502799953, 45.497581130644306]),
+            {
+              "Class": 0,
+              "system:index": "145"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100070042472804, 45.497581130644306]),
+            {
+              "Class": 0,
+              "system:index": "146"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100070042472804, 45.49084257126316]),
+            {
+              "Class": 0,
+              "system:index": "147"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.101872486930812, 45.49048155425589]),
+            {
+              "Class": 0,
+              "system:index": "148"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.103589100700344, 45.49048155425589]),
+            {
+              "Class": 0,
+              "system:index": "149"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.105477375846828, 45.49168493528109]),
+            {
+              "Class": 0,
+              "system:index": "150"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.101958317619289, 45.49330945888018]),
+            {
+              "Class": 0,
+              "system:index": "151"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.115605397087062, 45.474835261166824]),
+            {
+              "Class": 0,
+              "system:index": "152"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.115347905021633, 45.47345095681168]),
+            {
+              "Class": 0,
+              "system:index": "153"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.116377873283351, 45.47315001658276]),
+            {
+              "Class": 0,
+              "system:index": "154"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.118609471183742, 45.47345095681168]),
+            {
+              "Class": 0,
+              "system:index": "155"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.173455281120265, 45.52783454005218]),
+            {
+              "Class": 0,
+              "system:index": "156"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.17482857213589, 45.52639140688584]),
+            {
+              "Class": 0,
+              "system:index": "157"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.175171894889797, 45.5243469048559]),
+            {
+              "Class": 0,
+              "system:index": "158"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.177403492790187, 45.52627114411745]),
+            {
+              "Class": 0,
+              "system:index": "159"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.169507069450344, 45.51737098577302]),
+            {
+              "Class": 0,
+              "system:index": "160"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.170880360465969, 45.51508558282408]),
+            {
+              "Class": 0,
+              "system:index": "161"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.173970265251125, 45.51688985602345]),
+            {
+              "Class": 0,
+              "system:index": "162"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174313588005031, 45.516168153685705]),
+            {
+              "Class": 0,
+              "system:index": "163"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.1725969742355, 45.515205869503816]),
+            {
+              "Class": 0,
+              "system:index": "164"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.170537037712062, 45.51352183259026]),
+            {
+              "Class": 0,
+              "system:index": "165"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.170193714958156, 45.51267979523572]),
+            {
+              "Class": 0,
+              "system:index": "166"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.176545185905422, 45.51556672800036]),
+            {
+              "Class": 0,
+              "system:index": "167"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.132599873405422, 45.51905490750048]),
+            {
+              "Class": 0,
+              "system:index": "168"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.132084889274562, 45.51785211140882]),
+            {
+              "Class": 0,
+              "system:index": "169"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134831471305812, 45.51905490750048]),
+            {
+              "Class": 0,
+              "system:index": "170"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134144825798, 45.51869407137266]),
+            {
+              "Class": 0,
+              "system:index": "171"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.137749714714015, 45.517250703721295]),
+            {
+              "Class": 0,
+              "system:index": "172"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.139483642707761, 45.51731691076322]),
+            {
+              "Class": 0,
+              "system:index": "173"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.140170288215574, 45.51683578055127]),
+            {
+              "Class": 0,
+              "system:index": "174"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.139655304084714, 45.51635464622554]),
+            {
+              "Class": 0,
+              "system:index": "175"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.144461822639402, 45.5156329370236]),
+            {
+              "Class": 0,
+              "system:index": "176"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.14549179090112, 45.51443006778472]),
+            {
+              "Class": 0,
+              "system:index": "177"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.144461822639402, 45.51370833390005]),
+            {
+              "Class": 0,
+              "system:index": "178"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.136737060676511, 45.51683578055127]),
+            {
+              "Class": 0,
+              "system:index": "179"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.136565399299558, 45.516595213902626]),
+            {
+              "Class": 0,
+              "system:index": "180"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192012024055417, 45.5167154973555]),
+            {
+              "Class": 0,
+              "system:index": "181"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.190123748908933, 45.51418949085161]),
+            {
+              "Class": 0,
+              "system:index": "182"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.19269866956323, 45.5152720789516]),
+            {
+              "Class": 0,
+              "system:index": "183"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.191325378547605, 45.5149112185656]),
+            {
+              "Class": 0,
+              "system:index": "184"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192012024055417, 45.51443006778472]),
+            {
+              "Class": 0,
+              "system:index": "185"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.206774902473386, 45.52345096036677]),
+            {
+              "Class": 0,
+              "system:index": "186"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.204886627326902, 45.52321042200039]),
+            {
+              "Class": 0,
+              "system:index": "187"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.207289886604245, 45.52272934218223]),
+            {
+              "Class": 0,
+              "system:index": "188"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208834838996824, 45.52369149770475]),
+            {
+              "Class": 0,
+              "system:index": "189"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.221022796760495, 45.49373669254128]),
+            {
+              "Class": 0,
+              "system:index": "190"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.219992828498777, 45.492774024849496]),
+            {
+              "Class": 0,
+              "system:index": "191"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.221366119514402, 45.49229268483283]),
+            {
+              "Class": 0,
+              "system:index": "192"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.219992828498777, 45.491931677120604]),
+            {
+              "Class": 0,
+              "system:index": "193"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.215357971321042, 45.49217234918588]),
+            {
+              "Class": 0,
+              "system:index": "194"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.217589569221433, 45.49157066709437]),
+            {
+              "Class": 0,
+              "system:index": "195"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21690292371362, 45.49157066709437]),
+            {
+              "Class": 0,
+              "system:index": "196"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.216044616828855, 45.49108931679307]),
+            {
+              "Class": 0,
+              "system:index": "197"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.178222949176854, 45.41363046222715]),
+            {
+              "Class": 0,
+              "system:index": "198"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.177879626422948, 45.411943388322136]),
+            {
+              "Class": 0,
+              "system:index": "199"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.172901446491307, 45.407243416703025]),
+            {
+              "Class": 0,
+              "system:index": "200"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.170498187213964, 45.41290743672462]),
+            {
+              "Class": 0,
+              "system:index": "201"
+            })]),
+    water = 
+    /* color: #0025ff */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([9.09449486651551, 45.47280908346334]),
+            {
+              "Class": 1,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.094323205138556, 45.47220719454339]),
+            {
+              "Class": 1,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.095181512023322, 45.47148491935453]),
+            {
+              "Class": 1,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.095181512023322, 45.47124415890131]),
+            {
+              "Class": 1,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.095696496154181, 45.470762634909406]),
+            {
+              "Class": 1,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.097413109923712, 45.470281106803625]),
+            {
+              "Class": 1,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09621148028504, 45.470040341208]),
+            {
+              "Class": 1,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.099558877135626, 45.47118396862728]),
+            {
+              "Class": 1,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09947304644715, 45.47064225326866]),
+            {
+              "Class": 1,
+              "system:index": "8"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.099644707824103, 45.47052187137076]),
+            {
+              "Class": 1,
+              "system:index": "9"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09921555438172, 45.470040341208]),
+            {
+              "Class": 1,
+              "system:index": "10"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09870057025086, 45.4699801496484]),
+            {
+              "Class": 1,
+              "system:index": "11"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.097928094054572, 45.47016072413438]),
+            {
+              "Class": 1,
+              "system:index": "12"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09870057025086, 45.4699801496484]),
+            {
+              "Class": 1,
+              "system:index": "13"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100159691954962, 45.47058206235183]),
+            {
+              "Class": 1,
+              "system:index": "14"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.101790475036017, 45.46865591907437]),
+            {
+              "Class": 1,
+              "system:index": "15"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.101876305724494, 45.46787340456608]),
+            {
+              "Class": 1,
+              "system:index": "16"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.102133797789923, 45.46751224035984]),
+            {
+              "Class": 1,
+              "system:index": "17"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100932168151251, 45.46811417941798]),
+            {
+              "Class": 1,
+              "system:index": "18"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.102047967101447, 45.467331657388954]),
+            {
+              "Class": 1,
+              "system:index": "19"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100073861266486, 45.468415146536564]),
+            {
+              "Class": 1,
+              "system:index": "20"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.099387215758673, 45.468415146536564]),
+            {
+              "Class": 1,
+              "system:index": "21"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.098872231627814, 45.468415146536564]),
+            {
+              "Class": 1,
+              "system:index": "22"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.098099755431525, 45.468294759881985]),
+            {
+              "Class": 1,
+              "system:index": "23"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.097842263366095, 45.467813210692405]),
+            {
+              "Class": 1,
+              "system:index": "24"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.097327279235236, 45.46594716872573]),
+            {
+              "Class": 1,
+              "system:index": "25"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.097327279235236, 45.46528500995341]),
+            {
+              "Class": 1,
+              "system:index": "26"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.097928094054572, 45.46522481331568]),
+            {
+              "Class": 1,
+              "system:index": "27"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.097327279235236, 45.465104419847414]),
+            {
+              "Class": 1,
+              "system:index": "28"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.096640633727423, 45.465585992177736]),
+            {
+              "Class": 1,
+              "system:index": "29"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.099558877135626, 45.46317808938704]),
+            {
+              "Class": 1,
+              "system:index": "30"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.098357247496955, 45.46408106498606]),
+            {
+              "Class": 1,
+              "system:index": "31"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.098786400939337, 45.46299749253168]),
+            {
+              "Class": 1,
+              "system:index": "32"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.099301385070197, 45.462636297085396]),
+            {
+              "Class": 1,
+              "system:index": "33"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100331353331915, 45.46233529911246]),
+            {
+              "Class": 1,
+              "system:index": "34"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100159691954962, 45.462214899473324]),
+            {
+              "Class": 1,
+              "system:index": "35"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100245522643439, 45.462034299532554]),
+            {
+              "Class": 1,
+              "system:index": "36"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.045743035460822, 45.46293729345134]),
+            {
+              "Class": 1,
+              "system:index": "37"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.045228051329962, 45.46323828821026]),
+            {
+              "Class": 1,
+              "system:index": "38"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.04505638995301, 45.46323828821026]),
+            {
+              "Class": 1,
+              "system:index": "39"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.044112252379767, 45.4633586856639]),
+            {
+              "Class": 1,
+              "system:index": "40"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.043683098937384, 45.46323828821026]),
+            {
+              "Class": 1,
+              "system:index": "41"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.045571374083869, 45.462636297085396]),
+            {
+              "Class": 1,
+              "system:index": "42"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.048832940245978, 45.44589837054906]),
+            {
+              "Class": 1,
+              "system:index": "43"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.049648331786505, 45.44595858782075]),
+            {
+              "Class": 1,
+              "system:index": "44"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.049691247130744, 45.44574782708867]),
+            {
+              "Class": 1,
+              "system:index": "45"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.04904751696717, 45.44583815321312]),
+            {
+              "Class": 1,
+              "system:index": "46"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.048232125426642, 45.44619945626462]),
+            {
+              "Class": 1,
+              "system:index": "47"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.049219178344122, 45.44677151469685]),
+            {
+              "Class": 1,
+              "system:index": "48"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.049476670409552, 45.44580804452104]),
+            {
+              "Class": 1,
+              "system:index": "49"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.069813314395251, 45.44069802658835]),
+            {
+              "Class": 1,
+              "system:index": "50"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.068783346133532, 45.44015601829168]),
+            {
+              "Class": 1,
+              "system:index": "51"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.069469991641345, 45.440035571296406]),
+            {
+              "Class": 1,
+              "system:index": "52"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.069212499575915, 45.439192435130266]),
+            {
+              "Class": 1,
+              "system:index": "53"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.06861168475658, 45.43803170310436]),
+            {
+              "Class": 1,
+              "system:index": "54"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.069040838198962, 45.43730899006736]),
+            {
+              "Class": 1,
+              "system:index": "55"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.069727483706775, 45.43658626777386]),
+            {
+              "Class": 1,
+              "system:index": "56"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.06457764239818, 45.43381574656475]),
+            {
+              "Class": 1,
+              "system:index": "57"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.065950933413806, 45.43544193854511]),
+            {
+              "Class": 1,
+              "system:index": "58"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.065178457217517, 45.436164675494645]),
+            {
+              "Class": 1,
+              "system:index": "59"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.064663473086657, 45.4378510257129]),
+            {
+              "Class": 1,
+              "system:index": "60"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.063633504824939, 45.43815215437727]),
+            {
+              "Class": 1,
+              "system:index": "61"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.061659398989978, 45.43821237991731]),
+            {
+              "Class": 1,
+              "system:index": "62"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.061573568301501, 45.4379714773715]),
+            {
+              "Class": 1,
+              "system:index": "63"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.064062658267321, 45.437610121624346]),
+            {
+              "Class": 1,
+              "system:index": "64"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.063890996890368, 45.43670672213224]),
+            {
+              "Class": 1,
+              "system:index": "65"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.063633504824939, 45.436044219979195]),
+            {
+              "Class": 1,
+              "system:index": "66"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.062689367251696, 45.43586353622394]),
+            {
+              "Class": 1,
+              "system:index": "67"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.06260353656322, 45.43538171004815]),
+            {
+              "Class": 1,
+              "system:index": "68"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.063633504824939, 45.4356226236503]),
+            {
+              "Class": 1,
+              "system:index": "69"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.064749303775134, 45.43568285189012]),
+            {
+              "Class": 1,
+              "system:index": "70"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.06509262652904, 45.43544193854511]),
+            {
+              "Class": 1,
+              "system:index": "71"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.063976827578845, 45.43526125286141]),
+            {
+              "Class": 1,
+              "system:index": "72"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.065693441348376, 45.43508056659918]),
+            {
+              "Class": 1,
+              "system:index": "73"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.130152288394275, 45.43315321047132]),
+            {
+              "Class": 1,
+              "system:index": "74"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.130924764590564, 45.43188834724005]),
+            {
+              "Class": 1,
+              "system:index": "75"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.130152288394275, 45.43164741769621]),
+            {
+              "Class": 1,
+              "system:index": "76"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.128864828067126, 45.43086438957571]),
+            {
+              "Class": 1,
+              "system:index": "77"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.12800652118236, 45.431045089336955]),
+            {
+              "Class": 1,
+              "system:index": "78"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.127577367739978, 45.4308041561934]),
+            {
+              "Class": 1,
+              "system:index": "79"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.128349843936267, 45.43050298831762]),
+            {
+              "Class": 1,
+              "system:index": "80"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.130581441836657, 45.43122578851969]),
+            {
+              "Class": 1,
+              "system:index": "81"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.129465642886462, 45.433333902904536]),
+            {
+              "Class": 1,
+              "system:index": "82"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.146782031061393, 45.41803322780058]),
+            {
+              "Class": 1,
+              "system:index": "83"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.147468676569206, 45.417671744390915]),
+            {
+              "Class": 1,
+              "system:index": "84"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.148155322077018, 45.416828274102315]),
+            {
+              "Class": 1,
+              "system:index": "85"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.148851250806501, 45.41603200762624]),
+            {
+              "Class": 1,
+              "system:index": "86"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.148593758741072, 45.41591150914311]),
+            {
+              "Class": 1,
+              "system:index": "87"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.148164605298689, 45.415971758416795]),
+            {
+              "Class": 1,
+              "system:index": "88"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.149709557691267, 45.415971758416795]),
+            {
+              "Class": 1,
+              "system:index": "89"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.14687714497154, 45.417959948387484]),
+            {
+              "Class": 1,
+              "system:index": "90"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.2078169337899, 45.39828583732457]),
+            {
+              "Class": 1,
+              "system:index": "91"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208761071363142, 45.398707712507836]),
+            {
+              "Class": 1,
+              "system:index": "92"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208503579297712, 45.398466641360244]),
+            {
+              "Class": 1,
+              "system:index": "93"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208417748609236, 45.398135166852924]),
+            {
+              "Class": 1,
+              "system:index": "94"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208846902051619, 45.39804476437706]),
+            {
+              "Class": 1,
+              "system:index": "95"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.20854649464195, 45.39768315302732]),
+            {
+              "Class": 1,
+              "system:index": "96"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208246087232283, 45.39762288424406]),
+            {
+              "Class": 1,
+              "system:index": "97"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.20755944172447, 45.397924227517606]),
+            {
+              "Class": 1,
+              "system:index": "98"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.207945679822615, 45.39765301864373]),
+            {
+              "Class": 1,
+              "system:index": "99"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.207774018445662, 45.397411942996364]),
+            {
+              "Class": 1,
+              "system:index": "100"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.209104394117048, 45.39771328739486]),
+            {
+              "Class": 1,
+              "system:index": "101"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208889817395857, 45.397592749828306]),
+            {
+              "Class": 1,
+              "system:index": "102"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.212635182047077, 45.41257255360391]),
+            {
+              "Class": 1,
+              "system:index": "103"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213257454538532, 45.41272318557349]),
+            {
+              "Class": 1,
+              "system:index": "104"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213643692636676, 45.413340772448294]),
+            {
+              "Class": 1,
+              "system:index": "105"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21379389634151, 45.413913164009145]),
+            {
+              "Class": 1,
+              "system:index": "106"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.214330338144489, 45.4139282268666]),
+            {
+              "Class": 1,
+              "system:index": "107"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21454491486568, 45.41373240940614]),
+            {
+              "Class": 1,
+              "system:index": "108"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.214201592111774, 45.413687220665004]),
+            {
+              "Class": 1,
+              "system:index": "109"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.214223049783893, 45.413385961466645]),
+            {
+              "Class": 1,
+              "system:index": "110"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21402993073482, 45.413310646415965]),
+            {
+              "Class": 1,
+              "system:index": "111"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213772438669391, 45.413129889884495]),
+            {
+              "Class": 1,
+              "system:index": "112"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213686607980915, 45.41290394340664]),
+            {
+              "Class": 1,
+              "system:index": "113"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.214201592111774, 45.413235331264836]),
+            {
+              "Class": 1,
+              "system:index": "114"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.214652203226276, 45.41346127641689]),
+            {
+              "Class": 1,
+              "system:index": "115"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213407658243366, 45.413250394303084]),
+            {
+              "Class": 1,
+              "system:index": "116"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21304287781734, 45.413009385208795]),
+            {
+              "Class": 1,
+              "system:index": "117"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.212871216440387, 45.412919006533286]),
+            {
+              "Class": 1,
+              "system:index": "118"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.212935589456745, 45.412647869638924]),
+            {
+              "Class": 1,
+              "system:index": "119"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21381535401363, 45.413837849661526]),
+            {
+              "Class": 1,
+              "system:index": "120"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213450573587604, 45.41382278677994]),
+            {
+              "Class": 1,
+              "system:index": "121"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.265999248584741, 45.467409673781205]),
+            {
+              "Class": 1,
+              "system:index": "122"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.26604216392898, 45.466984530614276]),
+            {
+              "Class": 1,
+              "system:index": "123"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.266728809436792, 45.46710492006719]),
+            {
+              "Class": 1,
+              "system:index": "124"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.266600063404077, 45.46707482272807]),
+            {
+              "Class": 1,
+              "system:index": "125"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.266213825305933, 45.466623360712816]),
+            {
+              "Class": 1,
+              "system:index": "126"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.266471317371362, 45.46617189508182]),
+            {
+              "Class": 1,
+              "system:index": "127"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.26677172478103, 45.466021405734644]),
+            {
+              "Class": 1,
+              "system:index": "128"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.266385486682886, 45.46587091598573]),
+            {
+              "Class": 1,
+              "system:index": "129"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.265999248584741, 45.465991307817006]),
+            {
+              "Class": 1,
+              "system:index": "130"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.26552717979812, 45.46605150363621]),
+            {
+              "Class": 1,
+              "system:index": "131"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.265827587207788, 45.466623360712816]),
+            {
+              "Class": 1,
+              "system:index": "132"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.090088789216816, 45.485378008462426]),
+            {
+              "Class": 1,
+              "system:index": "133"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.08965316510999, 45.484997375988286]),
+            {
+              "Class": 1,
+              "system:index": "134"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.089996487863896, 45.485042507634546]),
+            {
+              "Class": 1,
+              "system:index": "135"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.089202553995488, 45.48513277081868]),
+            {
+              "Class": 1,
+              "system:index": "136"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.0888806889137, 45.48549382210884]),
+            {
+              "Class": 1,
+              "system:index": "137"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.088472993143437, 45.4857194779901]),
+            {
+              "Class": 1,
+              "system:index": "138"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.087872178324101, 45.486110612709645]),
+            {
+              "Class": 1,
+              "system:index": "139"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.088129670389531, 45.486020351092336]),
+            {
+              "Class": 1,
+              "system:index": "140"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.088794992455611, 45.48594508591402]),
+            {
+              "Class": 1,
+              "system:index": "141"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.088129804619918, 45.48588491134174]),
+            {
+              "Class": 1,
+              "system:index": "142"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.089116857537398, 45.48502741670231]),
+            {
+              "Class": 1,
+              "system:index": "143"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.089481637963424, 45.48486193377816]),
+            {
+              "Class": 1,
+              "system:index": "144"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.08982496071733, 45.4849371533494]),
+            {
+              "Class": 1,
+              "system:index": "145"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.100791552041455, 45.4797412416639]),
+            {
+              "Class": 1,
+              "system:index": "146"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.101199247811719, 45.47951556183639]),
+            {
+              "Class": 1,
+              "system:index": "147"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.101779697907348, 45.47933425098478]),
+            {
+              "Class": 1,
+              "system:index": "148"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.102144478333374, 45.47909352406447]),
+            {
+              "Class": 1,
+              "system:index": "149"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.102165936005493, 45.47873243175561]),
+            {
+              "Class": 1,
+              "system:index": "150"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.185436771918093, 45.523517101799385]),
+            {
+              "Class": 1,
+              "system:index": "151"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.185136364508425, 45.52344193375873]),
+            {
+              "Class": 1,
+              "system:index": "152"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.185243652869021, 45.523261530051414]),
+            {
+              "Class": 1,
+              "system:index": "153"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.185887383032595, 45.523517101799385]),
+            {
+              "Class": 1,
+              "system:index": "154"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.185737179327761, 45.523502068199285]),
+            {
+              "Class": 1,
+              "system:index": "155"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.186316536474978, 45.52369750468717]),
+            {
+              "Class": 1,
+              "system:index": "156"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.186638401556765, 45.52387790699647]),
+            {
+              "Class": 1,
+              "system:index": "157"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.186938808966433, 45.524013208348805]),
+            {
+              "Class": 1,
+              "system:index": "158"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.187153385687624, 45.524103409069596]),
+            {
+              "Class": 1,
+              "system:index": "159"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.187582539130007, 45.52438904373125]),
+            {
+              "Class": 1,
+              "system:index": "160"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.187990234900271, 45.52462957705831]),
+            {
+              "Class": 1,
+              "system:index": "161"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188483761359011, 45.524674676942645]),
+            {
+              "Class": 1,
+              "system:index": "162"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.18876271109656, 45.52471977679082]),
+            {
+              "Class": 1,
+              "system:index": "163"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.189406441260134, 45.524960308703754]),
+            {
+              "Class": 1,
+              "system:index": "164"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.189342068243777, 45.52476487660283]),
+            {
+              "Class": 1,
+              "system:index": "165"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188054607916628, 45.52456944382297]),
+            {
+              "Class": 1,
+              "system:index": "166"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188183353949343, 45.524614543755504]),
+            {
+              "Class": 1,
+              "system:index": "167"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174878814840127, 45.53337456953676]),
+            {
+              "Class": 1,
+              "system:index": "168"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174986103200723, 45.53331444564982]),
+            {
+              "Class": 1,
+              "system:index": "169"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.175007560872842, 45.53326935269244]),
+            {
+              "Class": 1,
+              "system:index": "170"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.175243595266153, 45.53311904257333]),
+            {
+              "Class": 1,
+              "system:index": "171"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.175372341298868, 45.53302885630904]),
+            {
+              "Class": 1,
+              "system:index": "172"
+            })]),
+    vegetation = 
+    /* color: #058b00 */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([9.143309768123897, 45.43680960991024]),
+            {
+              "Class": 2,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.14348142950085, 45.436327791812445]),
+            {
+              "Class": 2,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.144940551204952, 45.43638801929967]),
+            {
+              "Class": 2,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.144168075008663, 45.43602665341222]),
+            {
+              "Class": 2,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.14373892156628, 45.43548460024204]),
+            {
+              "Class": 2,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.14399641363171, 45.435364143274946]),
+            {
+              "Class": 2,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.197099071624324, 45.40622722741962]),
+            {
+              "Class": 2,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196069103362605, 45.40682982057973]),
+            {
+              "Class": 2,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196154934051082, 45.40598618835568]),
+            {
+              "Class": 2,
+              "system:index": "8"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.1971849023128, 45.410324734144446]),
+            {
+              "Class": 2,
+              "system:index": "9"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.195811611297176, 45.40972217826782]),
+            {
+              "Class": 2,
+              "system:index": "10"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.195983272674129, 45.40966192232662]),
+            {
+              "Class": 2,
+              "system:index": "11"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.195639949920222, 45.40887858924123]),
+            {
+              "Class": 2,
+              "system:index": "12"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.195897441985652, 45.408577304392594]),
+            {
+              "Class": 2,
+              "system:index": "13"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.195811611297176, 45.415506449328326]),
+            {
+              "Class": 2,
+              "system:index": "14"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196498256804988, 45.41524945085123]),
+            {
+              "Class": 2,
+              "system:index": "15"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196069103362605, 45.41488794962082]),
+            {
+              "Class": 2,
+              "system:index": "16"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.189983019554804, 45.43248194181072]),
+            {
+              "Class": 2,
+              "system:index": "17"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188180575096796, 45.43138960178048]),
+            {
+              "Class": 2,
+              "system:index": "18"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.189382204735468, 45.43259424471753]),
+            {
+              "Class": 2,
+              "system:index": "19"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.147015741477333, 45.42031574535986]),
+            {
+              "Class": 2,
+              "system:index": "20"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.145899942527137, 45.42013501125054]),
+            {
+              "Class": 2,
+              "system:index": "21"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.144869974265418, 45.41935182342492]),
+            {
+              "Class": 2,
+              "system:index": "22"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.14409749806913, 45.42061696758974]),
+            {
+              "Class": 2,
+              "system:index": "23"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.142724207053504, 45.42224353986151]),
+            {
+              "Class": 2,
+              "system:index": "24"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.143754175315223, 45.42447247019888]),
+            {
+              "Class": 2,
+              "system:index": "25"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.131480386863075, 45.42615916979597]),
+            {
+              "Class": 2,
+              "system:index": "26"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135943582663856, 45.41947231456673]),
+            {
+              "Class": 2,
+              "system:index": "27"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.136887720237098, 45.419592805451416]),
+            {
+              "Class": 2,
+              "system:index": "28"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135771921286903, 45.419050594445494]),
+            {
+              "Class": 2,
+              "system:index": "29"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.105234137665512, 45.465188935340834]),
+            {
+              "Class": 2,
+              "system:index": "30"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.10403250802684, 45.46392479029574]),
+            {
+              "Class": 2,
+              "system:index": "31"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.102487555634262, 45.465188935340834]),
+            {
+              "Class": 2,
+              "system:index": "32"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.103002539765122, 45.465008344927085]),
+            {
+              "Class": 2,
+              "system:index": "33"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.102745047699692, 45.46380439405111]),
+            {
+              "Class": 2,
+              "system:index": "34"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.106006613861801, 45.465369525176044]),
+            {
+              "Class": 2,
+              "system:index": "35"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.104976645600082, 45.463563600790486]),
+            {
+              "Class": 2,
+              "system:index": "36"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.103946677338364, 45.46223921947292]),
+            {
+              "Class": 2,
+              "system:index": "37"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.099447889059018, 45.47833524700491]),
+            {
+              "Class": 2,
+              "system:index": "38"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09764544460101, 45.477613050354385]),
+            {
+              "Class": 2,
+              "system:index": "39"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.095928830831479, 45.47713158077831]),
+            {
+              "Class": 2,
+              "system:index": "40"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.081427317365192, 45.47947870610466]),
+            {
+              "Class": 2,
+              "system:index": "41"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.078852396710895, 45.48110358174992]),
+            {
+              "Class": 2,
+              "system:index": "42"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.079195719464801, 45.47947870610466]),
+            {
+              "Class": 2,
+              "system:index": "43"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.079539042218707, 45.47881670629626]),
+            {
+              "Class": 2,
+              "system:index": "44"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.072667082126777, 45.438111157293676]),
+            {
+              "Class": 2,
+              "system:index": "45"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.071808775242012, 45.44003834409164]),
+            {
+              "Class": 2,
+              "system:index": "46"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.072066267307441, 45.44274833915976]),
+            {
+              "Class": 2,
+              "system:index": "47"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.069748838718574, 45.443470982527266]),
+            {
+              "Class": 2,
+              "system:index": "48"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.0725812514383, 45.436183904672106]),
+            {
+              "Class": 2,
+              "system:index": "49"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.071980436618965, 45.434858880311914]),
+            {
+              "Class": 2,
+              "system:index": "50"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.137541283051446, 45.481236291253666]),
+            {
+              "Class": 2,
+              "system:index": "51"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.138742912690118, 45.482078798933365]),
+            {
+              "Class": 2,
+              "system:index": "52"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.137627113739923, 45.48051413178635]),
+            {
+              "Class": 2,
+              "system:index": "53"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135824669281915, 45.480393770975226]),
+            {
+              "Class": 2,
+              "system:index": "54"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134365547577813, 45.4809955724597]),
+            {
+              "Class": 2,
+              "system:index": "55"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.133249748627618, 45.481236291253666]),
+            {
+              "Class": 2,
+              "system:index": "56"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.132048118988946, 45.48117611165161]),
+            {
+              "Class": 2,
+              "system:index": "57"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.126640785614923, 45.48292129401434]),
+            {
+              "Class": 2,
+              "system:index": "58"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.13170479623504, 45.483944306817904]),
+            {
+              "Class": 2,
+              "system:index": "59"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.129473198334649, 45.484305365725085]),
+            {
+              "Class": 2,
+              "system:index": "60"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.127670753876641, 45.48454607037759]),
+            {
+              "Class": 2,
+              "system:index": "61"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.114155470341196, 45.4771439318843]),
+            {
+              "Class": 2,
+              "system:index": "62"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.11355465552186, 45.47792631768481]),
+            {
+              "Class": 2,
+              "system:index": "63"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.11278217932557, 45.47792631768481]),
+            {
+              "Class": 2,
+              "system:index": "64"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.109177290409555, 45.48075485263727]),
+            {
+              "Class": 2,
+              "system:index": "65"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.108748136967172, 45.48659201839977]),
+            {
+              "Class": 2,
+              "system:index": "66"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.108833967655649, 45.48472659819206]),
+            {
+              "Class": 2,
+              "system:index": "67"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.108919798344125, 45.484305365725085]),
+            {
+              "Class": 2,
+              "system:index": "68"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.113382994144906, 45.48286111621209]),
+            {
+              "Class": 2,
+              "system:index": "69"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.113983808964242, 45.48099338447441]),
+            {
+              "Class": 2,
+              "system:index": "70"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.114069639652719, 45.480391582966554]),
+            {
+              "Class": 2,
+              "system:index": "71"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.112181364506235, 45.47804449566703]),
+            {
+              "Class": 2,
+              "system:index": "72"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.111838041752328, 45.47714174374939]),
+            {
+              "Class": 2,
+              "system:index": "73"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.104199110477914, 45.48267839449977]),
+            {
+              "Class": 2,
+              "system:index": "74"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.103169142216196, 45.48448370646113]),
+            {
+              "Class": 2,
+              "system:index": "75"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.10231083533143, 45.4862889605712]),
+            {
+              "Class": 2,
+              "system:index": "76"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.101280867069711, 45.4876127768176]),
+            {
+              "Class": 2,
+              "system:index": "77"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.10479992529725, 45.48755260402679]),
+            {
+              "Class": 2,
+              "system:index": "78"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.103941618412485, 45.487372085268674]),
+            {
+              "Class": 2,
+              "system:index": "79"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.060984924325778, 45.500809961716264]),
+            {
+              "Class": 2,
+              "system:index": "80"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.062614192094477, 45.4992582717576]),
+            {
+              "Class": 2,
+              "system:index": "81"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.062099207963618, 45.49949891251225]),
+            {
+              "Class": 2,
+              "system:index": "82"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.060983409013422, 45.50010050989941]),
+            {
+              "Class": 2,
+              "system:index": "83"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.061326731767329, 45.499137950994594]),
+            {
+              "Class": 2,
+              "system:index": "84"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.057464350785883, 45.50058178318108]),
+            {
+              "Class": 2,
+              "system:index": "85"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.081147329108852, 45.48769159846966]),
+            {
+              "Class": 2,
+              "system:index": "86"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.082263128059047, 45.48636778407566]),
+            {
+              "Class": 2,
+              "system:index": "87"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.081833974616664, 45.48654830605226]),
+            {
+              "Class": 2,
+              "system:index": "88"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.080804006354946, 45.4866084799159]),
+            {
+              "Class": 2,
+              "system:index": "89"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.082434789436, 45.486247435769904]),
+            {
+              "Class": 2,
+              "system:index": "90"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.082778112189906, 45.485886389309826]),
+            {
+              "Class": 2,
+              "system:index": "91"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.243421801831223, 45.49489413902562]),
+            {
+              "Class": 2,
+              "system:index": "92"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.243679293896653, 45.49423232035751]),
+            {
+              "Class": 2,
+              "system:index": "93"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.245052584912278, 45.49435265160296]),
+            {
+              "Class": 2,
+              "system:index": "94"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.254665622021653, 45.49988761095178]),
+            {
+              "Class": 2,
+              "system:index": "95"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.254408129956223, 45.499526651925976]),
+            {
+              "Class": 2,
+              "system:index": "96"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.253807315136887, 45.49928601128987]),
+            {
+              "Class": 2,
+              "system:index": "97"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.25724054267595, 45.50560248715078]),
+            {
+              "Class": 2,
+              "system:index": "98"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.256038913037278, 45.50578294747653]),
+            {
+              "Class": 2,
+              "system:index": "99"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.25423646857927, 45.50536187248319]),
+            {
+              "Class": 2,
+              "system:index": "100"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.256210574414231, 45.50560248715078]),
+            {
+              "Class": 2,
+              "system:index": "101"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.256296405102708, 45.504459558320036]),
+            {
+              "Class": 2,
+              "system:index": "102"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.212575535861207, 45.432834162528266]),
+            {
+              "Class": 2,
+              "system:index": "103"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.211631398287965, 45.43241254221742]),
+            {
+              "Class": 2,
+              "system:index": "104"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.211888890353395, 45.43168975721367]),
+            {
+              "Class": 2,
+              "system:index": "105"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.212232213107301, 45.43102719616199]),
+            {
+              "Class": 2,
+              "system:index": "106"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213348012057496, 45.42464211832922]),
+            {
+              "Class": 2,
+              "system:index": "107"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213777165499879, 45.423770772308465]),
+            {
+              "Class": 2,
+              "system:index": "108"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.215497066731952, 45.40895741283295]),
+            {
+              "Class": 2,
+              "system:index": "109"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.215668728108906, 45.40791433348955]),
+            {
+              "Class": 2,
+              "system:index": "110"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.22004609322121, 45.41046290760066]),
+            {
+              "Class": 2,
+              "system:index": "111"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.219874431844257, 45.409739841546205]),
+            {
+              "Class": 2,
+              "system:index": "112"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.218758632894062, 45.4085347108853]),
+            {
+              "Class": 2,
+              "system:index": "113"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.229573299642109, 45.40949881747102]),
+            {
+              "Class": 2,
+              "system:index": "114"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.228972484822773, 45.4087154821236]),
+            {
+              "Class": 2,
+              "system:index": "115"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.224337627645038, 45.414560107062755]),
+            {
+              "Class": 2,
+              "system:index": "116"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.230517437215351, 45.42335603111235]),
+            {
+              "Class": 2,
+              "system:index": "117"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.23128991341164, 45.421970462770425]),
+            {
+              "Class": 2,
+              "system:index": "118"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199673562728545, 45.474562924319336]),
+            {
+              "Class": 2,
+              "system:index": "119"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.200703530990264, 45.4742018029772]),
+            {
+              "Class": 2,
+              "system:index": "120"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199587732040069, 45.4742018029772]),
+            {
+              "Class": 2,
+              "system:index": "121"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.20078936167874, 45.47173407853921]),
+            {
+              "Class": 2,
+              "system:index": "122"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.200188546859405, 45.47149331915031]),
+            {
+              "Class": 2,
+              "system:index": "123"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199244409286162, 45.471252558732964]),
+            {
+              "Class": 2,
+              "system:index": "124"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.19855776377835, 45.47113217813861]),
+            {
+              "Class": 2,
+              "system:index": "125"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.178988366805694, 45.475947201360306]),
+            {
+              "Class": 2,
+              "system:index": "126"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.17435350962796, 45.475947201360306]),
+            {
+              "Class": 2,
+              "system:index": "127"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174525171004912, 45.47552590325184]),
+            {
+              "Class": 2,
+              "system:index": "128"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174525171004912, 45.473840679321]),
+            {
+              "Class": 2,
+              "system:index": "129"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.173151879989287, 45.47323880141828]),
+            {
+              "Class": 2,
+              "system:index": "130"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174954324447295, 45.472456350534976]),
+            {
+              "Class": 2,
+              "system:index": "131"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.177185922347686, 45.47203502632899]),
+            {
+              "Class": 2,
+              "system:index": "132"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.174525171004912, 45.470650653190006]),
+            {
+              "Class": 2,
+              "system:index": "133"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.171177774154327, 45.47299804845737]),
+            {
+              "Class": 2,
+              "system:index": "134"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.171950250350616, 45.47215540499496]),
+            {
+              "Class": 2,
+              "system:index": "135"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.161993890487334, 45.471553509093965]),
+            {
+              "Class": 2,
+              "system:index": "136"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.161736398421905, 45.47028950677881]),
+            {
+              "Class": 2,
+              "system:index": "137"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.161650567733428, 45.46986816637437]),
+            {
+              "Class": 2,
+              "system:index": "138"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.160878091537139, 45.4695672070142]),
+            {
+              "Class": 2,
+              "system:index": "139"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.1338739002558, 45.491696716500286]),
+            {
+              "Class": 2,
+              "system:index": "140"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.133015593371034, 45.49037299623529]),
+            {
+              "Class": 2,
+              "system:index": "141"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.133015593371034, 45.48941027104723]),
+            {
+              "Class": 2,
+              "system:index": "142"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.136792143664003, 45.487966152411204]),
+            {
+              "Class": 2,
+              "system:index": "143"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135590514025331, 45.486883039136686]),
+            {
+              "Class": 2,
+              "system:index": "144"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.152298534523306, 45.508755628215944]),
+            {
+              "Class": 2,
+              "system:index": "145"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.154015148292837, 45.5069510942239]),
+            {
+              "Class": 2,
+              "system:index": "146"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.152641857277212, 45.5063495700376]),
+            {
+              "Class": 2,
+              "system:index": "147"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.15144022763854, 45.50707139828983]),
+            {
+              "Class": 2,
+              "system:index": "148"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.15092524350768, 45.50598865244042]),
+            {
+              "Class": 2,
+              "system:index": "149"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.154358471046743, 45.5063495700376]),
+            {
+              "Class": 2,
+              "system:index": "150"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.163873540974832, 45.51074480126842]),
+            {
+              "Class": 2,
+              "system:index": "151"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.16267191133616, 45.510143317622855]),
+            {
+              "Class": 2,
+              "system:index": "152"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.163358556843972, 45.509421528763426]),
+            {
+              "Class": 2,
+              "system:index": "153"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.11546503267405, 45.50527106319612]),
+            {
+              "Class": 2,
+              "system:index": "154"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.114864217854715, 45.50472967556044]),
+            {
+              "Class": 2,
+              "system:index": "155"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.116065847493386, 45.507977923276385]),
+            {
+              "Class": 2,
+              "system:index": "156"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.112632619954324, 45.50863958038717]),
+            {
+              "Class": 2,
+              "system:index": "157"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.112203466511941, 45.509120780673506]),
+            {
+              "Class": 2,
+              "system:index": "158"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.112375127888894, 45.50833882811918]),
+            {
+              "Class": 2,
+              "system:index": "159"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.110916006184793, 45.50924108010232]),
+            {
+              "Class": 2,
+              "system:index": "160"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.111259328938699, 45.504188282718175]),
+            {
+              "Class": 2,
+              "system:index": "161"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.112117635823465, 45.50376719579686]),
+            {
+              "Class": 2,
+              "system:index": "162"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.106195318318582, 45.506774890421404]),
+            {
+              "Class": 2,
+              "system:index": "163"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.097440588093972, 45.498774067935]),
+            {
+              "Class": 2,
+              "system:index": "164"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09850275132766, 45.497646029122656]),
+            {
+              "Class": 2,
+              "system:index": "165"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.098931904770042, 45.49668342825804]),
+            {
+              "Class": 2,
+              "system:index": "166"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.129025398298358, 45.522376287494964]),
+            {
+              "Class": 2,
+              "system:index": "167"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.128682075544452, 45.520993151423205]),
+            {
+              "Class": 2,
+              "system:index": "168"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.128596244855975, 45.52051205264519]),
+            {
+              "Class": 2,
+              "system:index": "169"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.129197059675311, 45.520572190217415]),
+            {
+              "Class": 2,
+              "system:index": "170"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.132801948591327, 45.52267696475026]),
+            {
+              "Class": 2,
+              "system:index": "171"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.132630287214374, 45.52213574453374]),
+            {
+              "Class": 2,
+              "system:index": "172"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.132115303083514, 45.52189520054406]),
+            {
+              "Class": 2,
+              "system:index": "173"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.133574424787616, 45.52267696475026]),
+            {
+              "Class": 2,
+              "system:index": "174"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.13297360996828, 45.51540012407062]),
+            {
+              "Class": 2,
+              "system:index": "175"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134432731672382, 45.51546026710647]),
+            {
+              "Class": 2,
+              "system:index": "176"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135033546491718, 45.515700838607074]),
+            {
+              "Class": 2,
+              "system:index": "177"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.13245862583742, 45.51509940792724]),
+            {
+              "Class": 2,
+              "system:index": "178"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.132115303083514, 45.51479869017689]),
+            {
+              "Class": 2,
+              "system:index": "179"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134003578229999, 45.51437768262672]),
+            {
+              "Class": 2,
+              "system:index": "180"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134776054426288, 45.514197249855364]),
+            {
+              "Class": 2,
+              "system:index": "181"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199305191398585, 45.524858657318255]),
+            {
+              "Class": 2,
+              "system:index": "182"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199820175529444, 45.52413705719015]),
+            {
+              "Class": 2,
+              "system:index": "183"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199562683464015, 45.523138608019444]),
+            {
+              "Class": 2,
+              "system:index": "184"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199391022087061, 45.52241698582842]),
+            {
+              "Class": 2,
+              "system:index": "185"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199305191398585, 45.52193589922554]),
+            {
+              "Class": 2,
+              "system:index": "186"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.198618545890772, 45.52241698582842]),
+            {
+              "Class": 2,
+              "system:index": "187"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.25389269952189, 45.51923001613292]),
+            {
+              "Class": 2,
+              "system:index": "188"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.25389269952189, 45.51862862317258]),
+            {
+              "Class": 2,
+              "system:index": "189"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.252004424375405, 45.51856848352302]),
+            {
+              "Class": 2,
+              "system:index": "190"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.252176085752359, 45.51790694313549]),
+            {
+              "Class": 2,
+              "system:index": "191"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.25389269952189, 45.51706497139362]),
+            {
+              "Class": 2,
+              "system:index": "192"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.253978530210366, 45.51658383902752]),
+            {
+              "Class": 2,
+              "system:index": "193"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.253978530210366, 45.51580199015869]),
+            {
+              "Class": 2,
+              "system:index": "194"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.254665175718179, 45.51580199015869]),
+            {
+              "Class": 2,
+              "system:index": "195"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.256467620176187, 45.51700483007285]),
+            {
+              "Class": 2,
+              "system:index": "196"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.256982604307046, 45.51700483007285]),
+            {
+              "Class": 2,
+              "system:index": "197"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.255952636045327, 45.51405782661368]),
+            {
+              "Class": 2,
+              "system:index": "198"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.256553450864663, 45.513817248089275]),
+            {
+              "Class": 2,
+              "system:index": "199"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.272775450986734, 45.50395264309184]),
+            {
+              "Class": 2,
+              "system:index": "200"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.27286128167521, 45.502569054160446]),
+            {
+              "Class": 2,
+              "system:index": "201"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.255523482602944, 45.50353155440799]),
+            {
+              "Class": 2,
+              "system:index": "202"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199083380037626, 45.47696801934835]),
+            {
+              "Class": 2,
+              "system:index": "203"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199770025545439, 45.47672728231886]),
+            {
+              "Class": 2,
+              "system:index": "204"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.198654226595243, 45.48160200671081]),
+            {
+              "Class": 2,
+              "system:index": "205"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.197881750398954, 45.48130111001081]),
+            {
+              "Class": 2,
+              "system:index": "206"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196937612825712, 45.480578951374326]),
+            {
+              "Class": 2,
+              "system:index": "207"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.189384512239775, 45.48515246641159]),
+            {
+              "Class": 2,
+              "system:index": "208"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188955358797392, 45.484671061260045]),
+            {
+              "Class": 2,
+              "system:index": "209"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.189127020174345, 45.48455070932937]),
+            {
+              "Class": 2,
+              "system:index": "210"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188955358797392, 45.484249828377784]),
+            {
+              "Class": 2,
+              "system:index": "211"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.193075231844267, 45.48244450892169]),
+            {
+              "Class": 2,
+              "system:index": "212"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192560247713407, 45.48431000469665]),
+            {
+              "Class": 2,
+              "system:index": "213"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.194706014925321, 45.48418965199462]),
+            {
+              "Class": 2,
+              "system:index": "214"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196937612825712, 45.48581439177781]),
+            {
+              "Class": 2,
+              "system:index": "215"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.17899899893411, 45.46161897660754]),
+            {
+              "Class": 2,
+              "system:index": "216"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.178913168245634, 45.46137817401268]),
+            {
+              "Class": 2,
+              "system:index": "217"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.178569845491728, 45.46149857543867]),
+            {
+              "Class": 2,
+              "system:index": "218"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.166982702547392, 45.460053741356816]),
+            {
+              "Class": 2,
+              "system:index": "219"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.166467718416532, 45.460174145611134]),
+            {
+              "Class": 2,
+              "system:index": "220"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.167497686678251, 45.45975272959615]),
+            {
+              "Class": 2,
+              "system:index": "221"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.167583517366728, 45.45921090437724]),
+            {
+              "Class": 2,
+              "system:index": "222"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.195117196952468, 45.481927583683216]),
+            {
+              "Class": 2,
+              "system:index": "223"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.195374689017898, 45.48162668872203]),
+            {
+              "Class": 2,
+              "system:index": "224"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.161557397758132, 45.48866720965674]),
+            {
+              "Class": 2,
+              "system:index": "225"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.161814889823562, 45.48878755279272]),
+            {
+              "Class": 2,
+              "system:index": "226"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.160956582938796, 45.4884265226134]),
+            {
+              "Class": 2,
+              "system:index": "227"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.146193704520828, 45.48620011870688]),
+            {
+              "Class": 2,
+              "system:index": "228"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.146107873832351, 45.4858992465648]),
+            {
+              "Class": 2,
+              "system:index": "229"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.152030191337234, 45.484876269261555]),
+            {
+              "Class": 2,
+              "system:index": "230"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.151601037894851, 45.48463556601986]),
+            {
+              "Class": 2,
+              "system:index": "231"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.156150064384109, 45.47964074167494]),
+            {
+              "Class": 2,
+              "system:index": "232"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.156579217826492, 45.47927965287299]),
+            {
+              "Class": 2,
+              "system:index": "233"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.156750879203445, 45.47879819753739]),
+            {
+              "Class": 2,
+              "system:index": "234"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.16284485808528, 45.48180722589158]),
+            {
+              "Class": 2,
+              "system:index": "235"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.162415704642898, 45.4815063302876]),
+            {
+              "Class": 2,
+              "system:index": "236"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.165419778739578, 45.4800620090192]),
+            {
+              "Class": 2,
+              "system:index": "237"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199494562064773, 45.49384173232876]),
+            {
+              "Class": 2,
+              "system:index": "238"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199151239310867, 45.49372139999165]),
+            {
+              "Class": 2,
+              "system:index": "239"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.211253366386062, 45.4979328788077]),
+            {
+              "Class": 2,
+              "system:index": "240"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.210910043632156, 45.497812555212455]),
+            {
+              "Class": 2,
+              "system:index": "241"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.2242996310345, 45.494443390157684]),
+            {
+              "Class": 2,
+              "system:index": "242"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.224642953788406, 45.494323059106144]),
+            {
+              "Class": 2,
+              "system:index": "243"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.224213800346023, 45.49420272779747]),
+            {
+              "Class": 2,
+              "system:index": "244"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.224728784476882, 45.49408239623167]),
+            {
+              "Class": 2,
+              "system:index": "245"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.232968530570632, 45.49979786165504]),
+            {
+              "Class": 2,
+              "system:index": "246"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.232367715751296, 45.50124167691943]),
+            {
+              "Class": 2,
+              "system:index": "247"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.232625207816726, 45.501361993186904]),
+            {
+              "Class": 2,
+              "system:index": "248"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.235114297782546, 45.503527642034605]),
+            {
+              "Class": 2,
+              "system:index": "249"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.182032130847983, 45.51486293730583]),
+            {
+              "Class": 2,
+              "system:index": "250"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.181688808094076, 45.51486293730583]),
+            {
+              "Class": 2,
+              "system:index": "251"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.181517146717123, 45.5140209200172]),
+            {
+              "Class": 2,
+              "system:index": "252"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.181173823963217, 45.51305859911772]),
+            {
+              "Class": 2,
+              "system:index": "253"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188383601795248, 45.52063643075467]),
+            {
+              "Class": 2,
+              "system:index": "254"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188555263172201, 45.51943366847068]),
+            {
+              "Class": 2,
+              "system:index": "255"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.186666988025717, 45.525326957992746]),
+            {
+              "Class": 2,
+              "system:index": "256"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.182718776355795, 45.52352295533496]),
+            {
+              "Class": 2,
+              "system:index": "257"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.182203792224936, 45.522921608260155]),
+            {
+              "Class": 2,
+              "system:index": "258"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.176195644031576, 45.53422585777487]),
+            {
+              "Class": 2,
+              "system:index": "259"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.176023982654623, 45.53326388243206]),
+            {
+              "Class": 2,
+              "system:index": "260"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188726924549155, 45.52447922231413]),
+            {
+              "Class": 2,
+              "system:index": "261"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.187181972156576, 45.52405294001569]),
+            {
+              "Class": 2,
+              "system:index": "262"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.185980342517905, 45.52369213594117]),
+            {
+              "Class": 2,
+              "system:index": "263"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.186152003894858, 45.52321106024227]),
+            {
+              "Class": 2,
+              "system:index": "264"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.188040279041342, 45.523812404223136]),
+            {
+              "Class": 2,
+              "system:index": "265"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.178770564685873, 45.531629291048716]),
+            {
+              "Class": 2,
+              "system:index": "266"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.177397273670248, 45.531028030628605]),
+            {
+              "Class": 2,
+              "system:index": "267"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.177225612293295, 45.530907777773265]),
+            {
+              "Class": 2,
+              "system:index": "268"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.176710628162436, 45.53066727129122]),
+            {
+              "Class": 2,
+              "system:index": "269"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.207952998767905, 45.52116644262759]),
+            {
+              "Class": 2,
+              "system:index": "270"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.20829632152181, 45.520805620041095]),
+            {
+              "Class": 2,
+              "system:index": "271"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.209154628406576, 45.52032451965953]),
+            {
+              "Class": 2,
+              "system:index": "272"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21481945384603, 45.52489480719072]),
+            {
+              "Class": 2,
+              "system:index": "273"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.214647792469076, 45.52429347477984]),
+            {
+              "Class": 2,
+              "system:index": "274"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.214647792469076, 45.52417320752632]),
+            {
+              "Class": 2,
+              "system:index": "275"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21653606761556, 45.523812404223136]),
+            {
+              "Class": 2,
+              "system:index": "276"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.220827602039389, 45.50444589923089]),
+            {
+              "Class": 2,
+              "system:index": "277"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.22031261790853, 45.50384434827468]),
+            {
+              "Class": 2,
+              "system:index": "278"
+            })]),
+    agricolture = 
+    /* color: #ffc82d */
+    /* shown: false */
+    ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Point([9.138159273665648, 45.43395146396283]),
+            {
+              "Class": 3,
+              "system:index": "0"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.138159273665648, 45.433529851999054]),
+            {
+              "Class": 3,
+              "system:index": "1"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.137901781600219, 45.43268661862222]),
+            {
+              "Class": 3,
+              "system:index": "2"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.139704226058226, 45.43280708130458]),
+            {
+              "Class": 3,
+              "system:index": "3"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.139275072615844, 45.433710543226354]),
+            {
+              "Class": 3,
+              "system:index": "4"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.138674257796508, 45.432445692486134]),
+            {
+              "Class": 3,
+              "system:index": "5"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.139275072615844, 45.43172290790693]),
+            {
+              "Class": 3,
+              "system:index": "6"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.140219210189086, 45.43172290790693]),
+            {
+              "Class": 3,
+              "system:index": "7"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135326860945922, 45.429012383294356]),
+            {
+              "Class": 3,
+              "system:index": "8"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134468554061156, 45.428289554746854]),
+            {
+              "Class": 3,
+              "system:index": "9"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135241030257445, 45.42810884616364]),
+            {
+              "Class": 3,
+              "system:index": "10"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135927675765258, 45.42774742726164]),
+            {
+              "Class": 3,
+              "system:index": "11"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.13635682920764, 45.42708481993101]),
+            {
+              "Class": 3,
+              "system:index": "12"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135241030257445, 45.42708481993101]),
+            {
+              "Class": 3,
+              "system:index": "13"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.133095263045531, 45.427807663906016]),
+            {
+              "Class": 3,
+              "system:index": "14"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.13386773924182, 45.42738600604551]),
+            {
+              "Class": 3,
+              "system:index": "15"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134296892684203, 45.4266631566709]),
+            {
+              "Class": 3,
+              "system:index": "16"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135841845076781, 45.42401262976941]),
+            {
+              "Class": 3,
+              "system:index": "17"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.136185167830687, 45.423470461208474]),
+            {
+              "Class": 3,
+              "system:index": "18"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.132322786849242, 45.41720502456426]),
+            {
+              "Class": 3,
+              "system:index": "19"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.133009432357055, 45.41642179609764]),
+            {
+              "Class": 3,
+              "system:index": "20"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134039400618773, 45.41642179609764]),
+            {
+              "Class": 3,
+              "system:index": "21"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.134211061995726, 45.41612055148703]),
+            {
+              "Class": 3,
+              "system:index": "22"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.133438585799437, 45.41551805744472]),
+            {
+              "Class": 3,
+              "system:index": "23"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.139961718123656, 45.419494399331676]),
+            {
+              "Class": 3,
+              "system:index": "24"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.138760088484984, 45.418891941287036]),
+            {
+              "Class": 3,
+              "system:index": "25"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.139189241927367, 45.41859070985415]),
+            {
+              "Class": 3,
+              "system:index": "26"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.140305040877562, 45.41859070985415]),
+            {
+              "Class": 3,
+              "system:index": "27"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.154381273787719, 45.42328973719775]),
+            {
+              "Class": 3,
+              "system:index": "28"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.15386628965686, 45.423169254202534]),
+            {
+              "Class": 3,
+              "system:index": "29"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.151548861067992, 45.4250367117339]),
+            {
+              "Class": 3,
+              "system:index": "30"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.151291369002562, 45.42443431282816]),
+            {
+              "Class": 3,
+              "system:index": "31"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.152321337264281, 45.424615033174845]),
+            {
+              "Class": 3,
+              "system:index": "32"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.149145601790648, 45.42738600604551]),
+            {
+              "Class": 3,
+              "system:index": "33"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.143223284285765, 45.42853049862453]),
+            {
+              "Class": 3,
+              "system:index": "34"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.143995760482055, 45.42750648004136]),
+            {
+              "Class": 3,
+              "system:index": "35"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.141506670516234, 45.42738600604551]),
+            {
+              "Class": 3,
+              "system:index": "36"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.141678331893187, 45.42696434503526]),
+            {
+              "Class": 3,
+              "system:index": "37"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.138674257796508, 45.4250367117339]),
+            {
+              "Class": 3,
+              "system:index": "38"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.138245104354125, 45.42449455300801]),
+            {
+              "Class": 3,
+              "system:index": "39"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.140047548812133, 45.423109012608506]),
+            {
+              "Class": 3,
+              "system:index": "40"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.13961839536975, 45.4227475616944]),
+            {
+              "Class": 3,
+              "system:index": "41"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.136957644026976, 45.422506593132724]),
+            {
+              "Class": 3,
+              "system:index": "42"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.135326860945922, 45.42353070241682]),
+            {
+              "Class": 3,
+              "system:index": "43"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.149918077986937, 45.42063905190696]),
+            {
+              "Class": 3,
+              "system:index": "44"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.150518892806273, 45.42009685094819]),
+            {
+              "Class": 3,
+              "system:index": "45"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.151377199691039, 45.419735380749664]),
+            {
+              "Class": 3,
+              "system:index": "46"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.151634691756469, 45.422506593132724]),
+            {
+              "Class": 3,
+              "system:index": "47"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.152321337264281, 45.4214222218774]),
+            {
+              "Class": 3,
+              "system:index": "48"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.148458956282836, 45.42425359190295]),
+            {
+              "Class": 3,
+              "system:index": "49"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.149488924544555, 45.42353070241682]),
+            {
+              "Class": 3,
+              "system:index": "50"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.148888109725219, 45.4266631566709]),
+            {
+              "Class": 3,
+              "system:index": "51"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.14837312559436, 45.4266029188052]),
+            {
+              "Class": 3,
+              "system:index": "52"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.148544786971312, 45.41931366259326]),
+            {
+              "Class": 3,
+              "system:index": "53"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.149145601790648, 45.418891941287036]),
+            {
+              "Class": 3,
+              "system:index": "54"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.149746416609984, 45.41859070985415]),
+            {
+              "Class": 3,
+              "system:index": "55"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.150433062117797, 45.418349723550776]),
+            {
+              "Class": 3,
+              "system:index": "56"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192002510835286, 45.41753507319385]),
+            {
+              "Class": 3,
+              "system:index": "57"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192260002900715, 45.41675184930515]),
+            {
+              "Class": 3,
+              "system:index": "58"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192260002900715, 45.41572761705888]),
+            {
+              "Class": 3,
+              "system:index": "59"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192345833589192, 45.414884117730494]),
+            {
+              "Class": 3,
+              "system:index": "60"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.200499748994465, 45.41741457791806]),
+            {
+              "Class": 3,
+              "system:index": "61"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.200156426240559, 45.41639035769246]),
+            {
+              "Class": 3,
+              "system:index": "62"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.199813103486653, 45.41602886376564]),
+            {
+              "Class": 3,
+              "system:index": "63"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.197581505586262, 45.417354330183755]),
+            {
+              "Class": 3,
+              "system:index": "64"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.198353981782551, 45.416149361998386]),
+            {
+              "Class": 3,
+              "system:index": "65"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.20238802414095, 45.41500461840592]),
+            {
+              "Class": 3,
+              "system:index": "66"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.201787209321614, 45.414703366235216]),
+            {
+              "Class": 3,
+              "system:index": "67"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.202559685517903, 45.408738242333015]),
+            {
+              "Class": 3,
+              "system:index": "68"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.202044701387043, 45.408135669531546]),
+            {
+              "Class": 3,
+              "system:index": "69"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.20161554794466, 45.40765360666209]),
+            {
+              "Class": 3,
+              "system:index": "70"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.215176804406173, 45.40403805794284]),
+            {
+              "Class": 3,
+              "system:index": "71"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21526263509465, 45.40331490964248]),
+            {
+              "Class": 3,
+              "system:index": "72"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.215434296471603, 45.40006062774029]),
+            {
+              "Class": 3,
+              "system:index": "73"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196980698449142, 45.40180832095298]),
+            {
+              "Class": 3,
+              "system:index": "74"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196809037072189, 45.40168779212219]),
+            {
+              "Class": 3,
+              "system:index": "75"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.19629405294133, 45.401446733689276]),
+            {
+              "Class": 3,
+              "system:index": "76"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.17729239826433, 45.39994949483076]),
+            {
+              "Class": 3,
+              "system:index": "77"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.177464059641283, 45.399286561269605]),
+            {
+              "Class": 3,
+              "system:index": "78"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.1770349061989, 45.39868388764621]),
+            {
+              "Class": 3,
+              "system:index": "79"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.176536265929384, 45.39759905892499]),
+            {
+              "Class": 3,
+              "system:index": "80"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.179454509337587, 45.39717717546427]),
+            {
+              "Class": 3,
+              "system:index": "81"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.184175197203798, 45.39536906781313]),
+            {
+              "Class": 3,
+              "system:index": "82"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.185805980284853, 45.39524852524603]),
+            {
+              "Class": 3,
+              "system:index": "83"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.195267111674186, 45.39282374665187]),
+            {
+              "Class": 3,
+              "system:index": "84"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.195953757181998, 45.39228127864312]),
+            {
+              "Class": 3,
+              "system:index": "85"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.197498709574576, 45.392341553123444]),
+            {
+              "Class": 3,
+              "system:index": "86"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.197241217509147, 45.39758518683903]),
+            {
+              "Class": 3,
+              "system:index": "87"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.198700339213248, 45.398670015826575]),
+            {
+              "Class": 3,
+              "system:index": "88"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.18616905869567, 45.40566063636799]),
+            {
+              "Class": 3,
+              "system:index": "89"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.185310751810905, 45.40469646427067]),
+            {
+              "Class": 3,
+              "system:index": "90"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.184624106303092, 45.40445541867504]),
+            {
+              "Class": 3,
+              "system:index": "91"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213205725565787, 45.404154110234195]),
+            {
+              "Class": 3,
+              "system:index": "92"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.213463217631217, 45.40318991242408]),
+            {
+              "Class": 3,
+              "system:index": "93"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21414986313903, 45.400116422078405]),
+            {
+              "Class": 3,
+              "system:index": "94"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21414986313903, 45.39915215535792]),
+            {
+              "Class": 3,
+              "system:index": "95"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.196694017079418, 45.39737740780869]),
+            {
+              "Class": 3,
+              "system:index": "96"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192059159901683, 45.389662439321455]),
+            {
+              "Class": 3,
+              "system:index": "97"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.193260789540355, 45.38918021882139]),
+            {
+              "Class": 3,
+              "system:index": "98"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192574144032543, 45.388336323046786]),
+            {
+              "Class": 3,
+              "system:index": "99"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.056816983753183, 45.4516920754798]),
+            {
+              "Class": 3,
+              "system:index": "100"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.057331967884043, 45.450741971486]),
+            {
+              "Class": 3,
+              "system:index": "101"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.05887692027662, 45.449743742403214]),
+            {
+              "Class": 3,
+              "system:index": "102"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.061280179553965, 45.44835882182794]),
+            {
+              "Class": 3,
+              "system:index": "103"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.060507703357676, 45.44835882182794]),
+            {
+              "Class": 3,
+              "system:index": "104"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.055787015491465, 45.45016523322014]),
+            {
+              "Class": 3,
+              "system:index": "105"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.053297925525644, 45.452031797548244]),
+            {
+              "Class": 3,
+              "system:index": "106"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.053984571033457, 45.45082756956871]),
+            {
+              "Class": 3,
+              "system:index": "107"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.07037823253248, 45.43914522383133]),
+            {
+              "Class": 3,
+              "system:index": "108"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.070979047351816, 45.438362299740696]),
+            {
+              "Class": 3,
+              "system:index": "109"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.066430020862558, 45.44754803109796]),
+            {
+              "Class": 3,
+              "system:index": "110"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.066086698108652, 45.44628349052505]),
+            {
+              "Class": 3,
+              "system:index": "111"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.065915036731699, 45.44544044772768]),
+            {
+              "Class": 3,
+              "system:index": "112"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.067974973255136, 45.44658457418505]),
+            {
+              "Class": 3,
+              "system:index": "113"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.068318296009043, 45.445982405258]),
+            {
+              "Class": 3,
+              "system:index": "114"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.07012074046705, 45.44706630469849]),
+            {
+              "Class": 3,
+              "system:index": "115"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.06437008433912, 45.452967169615114]),
+            {
+              "Class": 3,
+              "system:index": "116"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.063597608142832, 45.452666120023736]),
+            {
+              "Class": 3,
+              "system:index": "117"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.050980496936777, 45.44658457418505]),
+            {
+              "Class": 3,
+              "system:index": "118"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.051495481067636, 45.445560883184385]),
+            {
+              "Class": 3,
+              "system:index": "119"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.058276105457285, 45.44995660138605]),
+            {
+              "Class": 3,
+              "system:index": "120"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.059306073719004, 45.44851147155506]),
+            {
+              "Class": 3,
+              "system:index": "121"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.05939190440748, 45.44839104239783]),
+            {
+              "Class": 3,
+              "system:index": "122"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09235989455257, 45.49309750333797]),
+            {
+              "Class": 3,
+              "system:index": "123"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.092531555929524, 45.492736500784645]),
+            {
+              "Class": 3,
+              "system:index": "124"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.093561524191243, 45.49141280495794]),
+            {
+              "Class": 3,
+              "system:index": "125"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.09064328078304, 45.49622609520093]),
+            {
+              "Class": 3,
+              "system:index": "126"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.092531555929524, 45.49622609520093]),
+            {
+              "Class": 3,
+              "system:index": "127"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.094076508322102, 45.49622609520093]),
+            {
+              "Class": 3,
+              "system:index": "128"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.088240021505696, 45.49526347006307]),
+            {
+              "Class": 3,
+              "system:index": "129"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.070215576925618, 45.48575666324919]),
+            {
+              "Class": 3,
+              "system:index": "130"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.071073883810383, 45.48516712277945]),
+            {
+              "Class": 3,
+              "system:index": "131"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.06815564040218, 45.48468571775315]),
+            {
+              "Class": 3,
+              "system:index": "132"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.068498963156086, 45.48420430861299]),
+            {
+              "Class": 3,
+              "system:index": "133"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.069357270040852, 45.48324147799102]),
+            {
+              "Class": 3,
+              "system:index": "134"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.211434868157475, 45.42354620047599]),
+            {
+              "Class": 3,
+              "system:index": "135"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.211778190911382, 45.42258233369334]),
+            {
+              "Class": 3,
+              "system:index": "136"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.214105084562302, 45.421716211663814]),
+            {
+              "Class": 3,
+              "system:index": "137"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.21367593111992, 45.422017426422066]),
+            {
+              "Class": 3,
+              "system:index": "138"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.212731793546677, 45.42213791187541]),
+            {
+              "Class": 3,
+              "system:index": "139"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.210328534269333, 45.420812557746835]),
+            {
+              "Class": 3,
+              "system:index": "140"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208869412565232, 45.42370419937029]),
+            {
+              "Class": 3,
+              "system:index": "141"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208783581876755, 45.423101786245525]),
+            {
+              "Class": 3,
+              "system:index": "142"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.208526089811325, 45.422981302849195]),
+            {
+              "Class": 3,
+              "system:index": "143"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.216250851774216, 45.41557107981136]),
+            {
+              "Class": 3,
+              "system:index": "144"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.216851666593552, 45.414667327543626]),
+            {
+              "Class": 3,
+              "system:index": "145"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.215594755063016, 45.41529706203046]),
+            {
+              "Class": 3,
+              "system:index": "146"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.200145231137235, 45.4088499481774]),
+            {
+              "Class": 3,
+              "system:index": "147"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.200316892514188, 45.40782557261597]),
+            {
+              "Class": 3,
+              "system:index": "148"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.200316892514188, 45.406921696398825]),
+            {
+              "Class": 3,
+              "system:index": "149"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.184514002059968, 45.40732177295195]),
+            {
+              "Class": 3,
+              "system:index": "150"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.184170679306062, 45.40641788867319]),
+            {
+              "Class": 3,
+              "system:index": "151"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.18348403379825, 45.40551398993102]),
+            {
+              "Class": 3,
+              "system:index": "152"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.183569864486726, 45.40412798376845]),
+            {
+              "Class": 3,
+              "system:index": "153"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.176789240097078, 45.396896095727996]),
+            {
+              "Class": 3,
+              "system:index": "154"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.176703409408601, 45.396172856012505]),
+            {
+              "Class": 3,
+              "system:index": "155"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.185801462387117, 45.398764422148986]),
+            {
+              "Class": 3,
+              "system:index": "156"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.186745599960359, 45.39773986369674]),
+            {
+              "Class": 3,
+              "system:index": "157"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.19821017623572, 45.39515570904958]),
+            {
+              "Class": 3,
+              "system:index": "158"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.198296006924197, 45.39467353541791]),
+            {
+              "Class": 3,
+              "system:index": "159"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.198810991055057, 45.39407081259293]),
+            {
+              "Class": 3,
+              "system:index": "160"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.200184282070682, 45.391961232083105]),
+            {
+              "Class": 3,
+              "system:index": "161"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.198553498989627, 45.38955018650546]),
+            {
+              "Class": 3,
+              "system:index": "162"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.197351869350955, 45.388947409040455]),
+            {
+              "Class": 3,
+              "system:index": "163"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.19045412829882, 45.423274126212895]),
+            {
+              "Class": 3,
+              "system:index": "164"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.190625789675773, 45.421948798757136]),
+            {
+              "Class": 3,
+              "system:index": "165"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.190797451052726, 45.421828312900224]),
+            {
+              "Class": 3,
+              "system:index": "166"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.192342403445304, 45.42158734041501]),
+            {
+              "Class": 3,
+              "system:index": "167"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.190625789675773, 45.41122455058583]),
+            {
+              "Class": 3,
+              "system:index": "168"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.190282466921866, 45.41098353284639]),
+            {
+              "Class": 3,
+              "system:index": "169"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.167794826541007, 45.41062200430875]),
+            {
+              "Class": 3,
+              "system:index": "170"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.16796648791796, 45.409537404811005]),
+            {
+              "Class": 3,
+              "system:index": "171"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.1674515037871, 45.40821175491862]),
+            {
+              "Class": 3,
+              "system:index": "172"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.163159969363273, 45.410380983998024]),
+            {
+              "Class": 3,
+              "system:index": "173"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.16298830798632, 45.409175867016785]),
+            {
+              "Class": 3,
+              "system:index": "174"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.162644985232413, 45.40821175491862]),
+            {
+              "Class": 3,
+              "system:index": "175"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.16247332385546, 45.40760917650062]),
+            {
+              "Class": 3,
+              "system:index": "176"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.166078212771476, 45.40604244252991]),
+            {
+              "Class": 3,
+              "system:index": "177"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.164533260378898, 45.40495775509452]),
+            {
+              "Class": 3,
+              "system:index": "178"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.160585048708976, 45.41387567783826]),
+            {
+              "Class": 3,
+              "system:index": "179"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.16024172595507, 45.41206810457441]),
+            {
+              "Class": 3,
+              "system:index": "180"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.15972674182421, 45.41291164596374]),
+            {
+              "Class": 3,
+              "system:index": "181"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.158696773562491, 45.41303215084801]),
+            {
+              "Class": 3,
+              "system:index": "182"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.158696773562491, 45.41255012976822]),
+            {
+              "Class": 3,
+              "system:index": "183"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.157666805300773, 45.41339366395802]),
+            {
+              "Class": 3,
+              "system:index": "184"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.259726299626267, 45.4412414499534]),
+            {
+              "Class": 3,
+              "system:index": "185"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.259726299626267, 45.440157438594014]),
+            {
+              "Class": 3,
+              "system:index": "186"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.260241283757127, 45.43931430424897]),
+            {
+              "Class": 3,
+              "system:index": "187"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.259726299626267, 45.4383507067129]),
+            {
+              "Class": 3,
+              "system:index": "188"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.25989796100322, 45.436784825619476]),
+            {
+              "Class": 3,
+              "system:index": "189"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.260069622380174, 45.436784825619476]),
+            {
+              "Class": 3,
+              "system:index": "190"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.261614574772752, 45.436303007310066]),
+            {
+              "Class": 3,
+              "system:index": "191"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.261271252018846, 45.436303007310066]),
+            {
+              "Class": 3,
+              "system:index": "192"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.258353008610642, 45.43594164087819]),
+            {
+              "Class": 3,
+              "system:index": "193"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.076018742594782, 45.48080849535405]),
+            {
+              "Class": 3,
+              "system:index": "194"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.075332097086969, 45.48008633040349]),
+            {
+              "Class": 3,
+              "system:index": "195"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.072413853678766, 45.482493510908945]),
+            {
+              "Class": 3,
+              "system:index": "196"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.071040562663141, 45.48189172542447]),
+            {
+              "Class": 3,
+              "system:index": "197"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.05464594716228, 45.45853525493546]),
+            {
+              "Class": 3,
+              "system:index": "198"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.05464594716228, 45.457090344916494]),
+            {
+              "Class": 3,
+              "system:index": "199"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.054989269916186, 45.45612705100086]),
+            {
+              "Class": 3,
+              "system:index": "200"
+            }),
+        ee.Feature(
+            ee.Geometry.Point([9.060482433978686, 45.44842010726836]),
+            {
+              "Class": 3,
+              "system:index": "201"
+            })]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 function maskClouds(image) {
   // Bits 3 and 5 are cloud shadow and cloud, respectively.
@@ -63,7 +5202,7 @@ var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
          .filterDate("2014-01-01", "2014-12-30")
          .filterMetadata("CLOUD_COVER", "less_than", 30)
          .map(maskClouds)
-         .map(indices)
+         //.map(indices)
          .map(elevation)
          .median()
          .clip(roi);
@@ -72,6 +5211,8 @@ var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
 print(l8);
 
 Map.addLayer(l8, trueColVis, 'Natural colour');
+Map.addLayer(l8, {}, 'False color');
+
 Map.addLayer(l8_2, trueColVis, 'Natural colour_2014');
 
 Map.addLayer(l8.select('NDVI'), ndviVis, 'NDVI');
@@ -95,32 +5236,40 @@ var slopeVis = {
 Map.addLayer(l8.select('elevation'), elevationVis, 'Elevation');
 Map.addLayer(l8.select('slope'), slopeVis, 'Slope');
 
-var dataset = ee.ImageCollection('ESA/WorldCover/v200').first().select('Map');
-print(dataset)
+var dataset = ee.ImageCollection('ESA/WorldCover/v200').first();
+
 var visualization = {
   bands: ['Map'],
 };
 
+Map.centerObject(dataset);
 
 Map.addLayer(dataset.clip(roi), visualization, 'Landcover');
+             
+var training = urban.merge(water).merge(vegetation).merge(agricolture);
+var sample = l8.sampleRegions({
+  collection: training,
+  properties: ['Class'],
+  scale: 30
+})
 
-// Sample the input imagery to get a FeatureCollection of training data.
-var training = l8.addBands(dataset).sample({
-  region: roi,
-  numPixels: 5000,
-  scale: 30,
-  seed: 0
+print(sample);
+// The randomColumn() method will add a column of uniform random
+// numbers in a column named 'random' by default.
+sample = sample.randomColumn();
+
+var split = 0.7;  // Roughly 70% training, 30% testing.
+var trainSet = sample.filter(ee.Filter.lt('random', split));
+print('Training size:', trainSet.size());
+var validationSet = sample.filter(ee.Filter.gte('random', split));
+print('Validation size:', validationSet.size());
+
+var classifier = ee.Classifier.smileRandomForest(100).train({
+  features: trainSet,
+  classProperty: 'Class',
+  inputProperties: l8.bandNames()
 });
 
-print(training)
-// Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.smileRandomForest(10)
-    .train({
-      features: training,
-      classProperty: 'Map',
-      inputProperties: l8.bandNames()})
-
-// Classify the input imagery.
 var classified = l8.classify(classifier);
 
 // Get a confusion matrix representing resubstitution accuracy.
@@ -128,42 +5277,14 @@ var trainAccuracy = classifier.confusionMatrix();
 print('Resubstitution error matrix: ', trainAccuracy);
 print('Training overall accuracy: ', trainAccuracy.accuracy());
 
-
-// Sample the input with a different random seed to get validation data.
-var validation = l8.addBands(dataset).sample({
-  region: roi,
-  numPixels: 5000,
-  scale: 30,
-  seed: 1
-  // Filter the result to get rid of any null pixels.
-}).filter(ee.Filter.notNull(l8.bandNames()));
-
 // Classify the validation data.
-var validated = validation.classify(classifier);
+var validated = validationSet.classify(classifier);
 
 // Get a confusion matrix representing expected accuracy.
-var testAccuracy = validated.errorMatrix('Map', 'classification');
+var testAccuracy = validated.errorMatrix('Class', 'classification');
 print('Validation error matrix: ', testAccuracy);
 print('Validation overall accuracy: ', testAccuracy.accuracy());
 
-// Define a palette for the IGBP classification.
-var esaPalette = [
-  '006400',	//Tree cover
-  'ffbb22',	//Shrubland
-  'ffff4c',//	Grassland
-  'f096ff', //	Cropland
-  'fa0000', //	Built-up
-  'b4b4b4',	//Bare / sparse vegetation
-  'f0f0f0',	//Snow and ice
-  '0064c8', //	Permanent water bodies
-  '0096a0', //	Herbaceous wetland
-  '00cf75',	//Mangroves
-  'fae6a0',	//Moss and lichen
-];
+Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']},'LULC2023');
 
-Map.addLayer(classified.clip(roi),
-             {palette: esaPalette, min: 0, max: 10},
-             'classification');
-             
-             
 Map.centerObject(roi);
