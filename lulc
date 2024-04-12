@@ -51,7 +51,16 @@ var elevation = function(img){
 }
 
 var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
-         .filterDate("2021-01-01", "2021-12-30")
+         .filterDate("2023-01-01", "2023-12-30")
+         .filterMetadata("CLOUD_COVER", "less_than", 30)
+         .map(maskClouds)
+         .map(indices)
+         .map(elevation)
+         .median()
+         .clip(roi);
+
+var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
+         .filterDate("2014-01-01", "2014-12-30")
          .filterMetadata("CLOUD_COVER", "less_than", 30)
          .map(maskClouds)
          .map(indices)
@@ -63,6 +72,8 @@ var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
 print(l8);
 
 Map.addLayer(l8, trueColVis, 'Natural colour');
+Map.addLayer(l8_2, trueColVis, 'Natural colour_2014');
+
 Map.addLayer(l8.select('NDVI'), ndviVis, 'NDVI');
 Map.addLayer(l8.select('NDBI'), ndbiVis, 'NDBI');
 
