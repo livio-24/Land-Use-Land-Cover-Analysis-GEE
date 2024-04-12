@@ -3,7 +3,8 @@ var roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var dataset = ee.ImageCollection('LANDSAT/LT05/C02/T1_L2')
     .filterDate('2000-01-01', '2000-12-30')
-    .
+    .sort('CLOUD_COVER')
+    .first
 
 // Applies scaling factors.
 function applyScaleFactors(image) {
@@ -21,6 +22,6 @@ var visualization = {
   max: 0.3,
 };
 
-Map.setCenter(-114.2579, 38.9275, 8);
+Map.setCenter(roi);
 
 Map.addLayer(dataset, visualization, 'True Color (321)');
