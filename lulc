@@ -5254,6 +5254,7 @@ var sample = l8.sampleRegions({
 })
 
 print(sample);
+print('Samples size:', sample.size());
 // The randomColumn() method will add a column of uniform random
 // numbers in a column named 'random' by default.
 sample = sample.randomColumn();
@@ -5276,6 +5277,8 @@ var classified = l8.classify(classifier);
 var trainAccuracy = classifier.confusionMatrix();
 print('Resubstitution error matrix: ', trainAccuracy);
 print('Training overall accuracy: ', trainAccuracy.accuracy());
+var kappa = trainAccuracy.kappa();
+print('Training kappa', kappa);
 
 // Classify the validation data.
 var validated = validationSet.classify(classifier);
@@ -5284,7 +5287,77 @@ var validated = validationSet.classify(classifier);
 var testAccuracy = validated.errorMatrix('Class', 'classification');
 print('Validation error matrix: ', testAccuracy);
 print('Validation overall accuracy: ', testAccuracy.accuracy());
+var kappa1 = testAccuracy.kappa();
+print('Validation kappa', kappa1);
 
-Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']},'LULC2023');
+//-------------- CREATE A LEGEND ------------------
+
+//set position of panel
+var legend = ui.Panel({
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px'
+  }
+});
+
+//Create a legend title
+var legendTitle = ui.Label({
+  value: 'Classification Legend',
+  style: {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    margin: '0 0 4px 0',
+    padding: '0'
+  }
+});
+
+//Add the title to the panel
+legend.add(legendTitle);
+
+//Create and style 1 row of the legend.
+
+var makeRow = function(color, name){
+  var colorBox = ui.Label({
+    style: {
+      backgroundColor: '#' + color,
+      padding: '8px',
+      margin: '0 0 4px 0'
+    }
+  });
+  
+  var description = ui.Label({
+    value: name,
+    style: {margin: '0 0 4px 6px'}
+  });
+  
+  return ui.Panel({
+    widgets: [colorBox, description],
+    layout: ui.Panel.Layout.Flow('horizontal')
+  });
+  
+};
+
+//Identify palette with the legend colors
+var palette =['FF0000','0000FF', '008000', 'FFFF00'];
+ 
+//Identify names within the legend
+var names = ['urban','water','vegetation', 'agricolture'];
+ 
+//Add color and names
+for (var i = 0; i < 4; i++) {
+  legend.add(makeRow(palette[i], names[i]));
+}  
+
+//Add legend to map
+Map.add(legend);
+
+////******Part 6: Display the Final Land Cover Classification and Provide Export Options******
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//Add final map to the display
+Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']} , "Land Classification");
+
+//Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']},'LULC2023');
 
 Map.centerObject(roi);
