@@ -1,0 +1,158 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var roi2 = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[8.803167429792586, 45.69714087137378],
+          [8.803167429792586, 45.27447682040372],
+          [9.61752900205821, 45.27447682040372],
+          [9.61752900205821, 45.69714087137378]]], null, false),
+    trueColVis = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.8321419775485992,"max":1.419758039712906,"gamma":1},
+    ndbiVis = {"opacity":1,"bands":["NDBI"],"min":-0.13909015748649836,"max":0.011268583498895167,"palette":["ffffff","ff0000"]},
+    ndviVis = {"opacity":1,"bands":["NDVI"],"min":0.054412869438529014,"max":0.40175328992307185,"palette":["ffffff","008000"]},
+    roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary"),
+    dem = ee.Image("CGIAR/SRTM90_V4");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+function maskClouds(image) {
+  // Bits 3 and 5 are cloud shadow and cloud, respectively.
+  var cloudShadowBitMask = 1 << 3;
+  var cloudsBitMask = 1 << 5;
+  // Get the pixel QA band.
+  var qa = image.select('QA_PIXEL');
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+      .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  // Return the masked image, scaled to reflectance, without the QA bands.
+  return image.updateMask(mask).divide(10000)
+      .select("SR_B[0-9]*")
+      .copyProperties(image, ["system:time_start"]);
+}
+
+// adding spectral indices to bands
+var indices = function(img){
+  var ndvi = img.normalizedDifference(['SR_B5', 'SR_B4']).rename('NDVI');
+  var ndbi = img.normalizedDifference(['SR_B6', 'SR_B5']).rename('NDBI');
+  var gndvi = img.normalizedDifference(['SR_B6', 'SR_B3']).rename('GNDVI');
+  
+  return img.addBands(ndvi).addBands(ndbi).addBands(gndvi);
+};
+
+// adding elevation and slope to bands
+var elevation = function(img){
+  var elevation = dem.select('elevation');
+  var slope = ee.Terrain.slope(elevation);
+  
+  return img.addBands(elevation).addBands(slope)
+}
+
+var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
+         .filterDate("2014-01-01", "2014-12-30")
+         .filterMetadata("CLOUD_COVER", "less_than", 30)
+         .map(maskClouds)
+         .map(indices)
+         .map(elevation)
+         .median()
+         .clip(roi);
+
+  
+print(l8);
+
+Map.addLayer(l8, trueColVis, 'Natural colour');
+Map.addLayer(l8.select('NDVI'), ndviVis, 'NDVI');
+Map.addLayer(l8.select('NDBI'), ndbiVis, 'NDBI');
+
+
+// Visualization parameters for elevation
+var elevationVis = {
+  min: 99.04,
+  max: 148.96,
+  palette: ['blue', 'yellow', 'red']
+};
+
+// Visualization parameters for slope
+var slopeVis = {
+  min: 0,
+  max: 60,
+};
+
+// Display the Landsat image with elevation and slope
+Map.addLayer(l8.select('elevation'), elevationVis, 'Elevation');
+Map.addLayer(l8.select('slope'), slopeVis, 'Slope');
+
+var dataset = ee.ImageCollection('ESA/WorldCover/v200').first().select('Map');
+print(dataset)
+var visualization = {
+  bands: ['Map'],
+};
+
+
+Map.addLayer(dataset.clip(roi), visualization, 'Landcover');
+
+// Sample the input imagery to get a FeatureCollection of training data.
+var training = l8.addBands(dataset).sample({
+  region: roi,
+  numPixels: 5000,
+  scale: 30,
+  seed: 0
+});
+
+print(training)
+// Make a Random Forest classifier and train it.
+var classifier = ee.Classifier.smileRandomForest(10)
+    .train({
+      features: training,
+      classProperty: 'Map',
+      inputProperties: l8.bandNames()})
+
+// Classify the input imagery.
+var classified = l8.classify(classifier);
+
+// Get a confusion matrix representing resubstitution accuracy.
+var trainAccuracy = classifier.confusionMatrix();
+print('Resubstitution error matrix: ', trainAccuracy);
+print('Training overall accuracy: ', trainAccuracy.accuracy());
+
+
+// Sample the input with a different random seed to get validation data.
+var validation = l8.addBands(dataset).sample({
+  region: roi,
+  numPixels: 5000,
+  scale: 30,
+  seed: 1
+  // Filter the result to get rid of any null pixels.
+}).filter(ee.Filter.notNull(l8.bandNames()));
+
+// Classify the validation data.
+var validated = validation.classify(classifier);
+
+// Get a confusion matrix representing expected accuracy.
+var testAccuracy = validated.errorMatrix('Map', 'classification');
+print('Validation error matrix: ', testAccuracy);
+print('Validation overall accuracy: ', testAccuracy.accuracy());
+
+// Define a palette for the IGBP classification.
+var esaPalette = [
+  '006400',	//Tree cover
+  'ffbb22',	//Shrubland
+  'ffff4c',//	Grassland
+  'f096ff', //	Cropland
+  'fa0000', //	Built-up
+  'b4b4b4',	//Bare / sparse vegetation
+  'f0f0f0',	//Snow and ice
+  '0064c8', //	Permanent water bodies
+  '0096a0', //	Herbaceous wetland
+  '00cf75',	//Mangroves
+  'fae6a0',	//Moss and lichen
+];
+
+Map.addLayer(classified.clip(roi),
+             {palette: esaPalette, min: 0, max: 10},
+             'classification');
+             
+             
+Map.centerObject(roi);
