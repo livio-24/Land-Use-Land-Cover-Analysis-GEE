@@ -2,19 +2,11 @@
 var roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var dataset = ee.ImageCollection('LANDSAT/LT05/C02/T1_L2')
-    .filterDate('2000-01-01', '2000-12-30')
+    .filterDate('2005-01-01', '2005-12-30')
     .sort('CLOUD_COVER')
-    .first
+    .first()
+    .clip(roi);
 
-// Applies scaling factors.
-function applyScaleFactors(image) {
-  var opticalBands = image.select('SR_B.').multiply(0.0000275).add(-0.2);
-  var thermalBand = image.select('ST_B6').multiply(0.00341802).add(149.0);
-  return image.addBands(opticalBands, null, true)
-              .addBands(thermalBand, null, true);
-}
-
-dataset = dataset.map(applyScaleFactors);
 
 var visualization = {
   bands: ['SR_B3', 'SR_B2', 'SR_B1'],
@@ -22,6 +14,6 @@ var visualization = {
   max: 0.3,
 };
 
-Map.setCenter(roi);
+Map.centerObject(roi);
 
 Map.addLayer(dataset, visualization, 'True Color (321)');
