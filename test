@@ -1,5 +1,18 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary");
+var roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary"),
+    roi2 = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-3.830598680738655, 40.50371925353982],
+          [-3.830598680738655, 40.34167292114897],
+          [-3.57928642487928, 40.34167292114897],
+          [-3.57928642487928, 40.50371925353982]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 var startDate = '2023-05-01'
@@ -34,7 +47,7 @@ var image = ee.ImageCollection('LANDSAT/LC08/C02/T1_L2')
 .map(applyScaleFactors)
 .map(maskL8sr)
 .median()
-.clip(roi);
+.clip(roi2);
 
 var visualization = {
 bands: ['SR_B4', 'SR_B3', 'SR_B2'],
@@ -51,14 +64,14 @@ Map.addLayer(ndvi, {min:-1, max:1, palette: ['blue', 'white', 'green']}, 'ndvi',
 // ndvi statistics
 var ndvi_min = ee.Number(ndvi.reduceRegion({
 reducer: ee.Reducer.min(),
-geometry: roi,
+geometry: roi2,
 scale: 30,
 maxPixels: 1e9
 }).values().get(0))
 
 var ndvi_max = ee.Number(ndvi.reduceRegion({
 reducer: ee.Reducer.max(),
-geometry: roi,
+geometry: roi2,
 scale: 30,
 maxPixels: 1e9
 }).values().get(0))
@@ -98,7 +111,7 @@ Map.centerObject(roi, 10)
 
 var lst_mean = ee.Number(lst.reduceRegion({
 reducer: ee.Reducer.mean(),
-geometry: roi,
+geometry: roi2,
 scale: 30,
 maxPixels: 1e9
 }).values().get(0))
@@ -106,7 +119,7 @@ maxPixels: 1e9
 
 var lst_std = ee.Number(lst.reduceRegion({
 reducer: ee.Reducer.stdDev(),
-geometry: roi,
+geometry: roi2,
 scale: 30,
 maxPixels: 1e9
 }).values().get(0))
@@ -137,3 +150,4 @@ palette:['313695', '74add1', 'fed976', 'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c',
 'b10026']
 }
 Map.addLayer(utfvi, utfvi_vis, 'UTFVI AOI')
+Map.centerObject(roi2)
