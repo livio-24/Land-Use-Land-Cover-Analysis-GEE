@@ -2,7 +2,7 @@
 var roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
-var startDate = '2023-01-01'
+var startDate = '2023-05-01'
 var endDate = '2023-12-31'
 
 // *****************************************************************************************
