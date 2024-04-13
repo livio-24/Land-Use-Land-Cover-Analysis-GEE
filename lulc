@@ -5211,7 +5211,7 @@ var elevation = function(img){
 };
 
 var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
-         .filterDate("2022-01-01", "2022-12-30")
+         .filterDate("2020-01-01", "2020-12-30")
          .filterMetadata("CLOUD_COVER", "less_than", 30)
          .map(applyScaleFactors)
          .map(maskClouds)
