@@ -5202,7 +5202,7 @@ var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
          .filterDate("2014-01-01", "2014-12-30")
          .filterMetadata("CLOUD_COVER", "less_than", 30)
          .map(maskClouds)
-         //.map(indices)
+         .map(indices)
          .map(elevation)
          .median()
          .clip(roi);
@@ -5265,10 +5265,11 @@ print('Training size:', trainSet.size());
 var validationSet = sample.filter(ee.Filter.gte('random', split));
 print('Validation size:', validationSet.size());
 
+//print(l8.bandNames().slice(1));
 var classifier = ee.Classifier.smileRandomForest(100).train({
   features: trainSet,
   classProperty: 'Class',
-  inputProperties: l8.bandNames()
+  inputProperties: l8.bandNames().slice(1) //remove SR_B1
 });
 
 var classified = l8.classify(classifier);
@@ -5364,5 +5365,7 @@ Map.add(legend);
 Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']} , "Land Classification");
 
 //Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']},'LULC2023');
+ 
+
 
 Map.centerObject(roi);
