@@ -5273,12 +5273,15 @@ var classifier = ee.Classifier.smileRandomForest(100).train({
 
 var classified = l8.classify(classifier);
 
+//----------------------- ACCURACY ASSESMENT ----------------------------------
+
 // Get a confusion matrix representing resubstitution accuracy.
 var trainAccuracy = classifier.confusionMatrix();
 print('Resubstitution error matrix: ', trainAccuracy);
 print('Training overall accuracy: ', trainAccuracy.accuracy());
-var kappa = trainAccuracy.kappa();
-print('Training kappa', kappa);
+print('Training producers accuracy:', trainAccuracy.producersAccuracy());
+print('Training consumers accuracy:', trainAccuracy.consumersAccuracy());
+print('Training kappa', trainAccuracy.kappa());
 
 // Classify the validation data.
 var validated = validationSet.classify(classifier);
@@ -5287,8 +5290,10 @@ var validated = validationSet.classify(classifier);
 var testAccuracy = validated.errorMatrix('Class', 'classification');
 print('Validation error matrix: ', testAccuracy);
 print('Validation overall accuracy: ', testAccuracy.accuracy());
-var kappa1 = testAccuracy.kappa();
-print('Validation kappa', kappa1);
+print('Validation producers accuracy:', testAccuracy.producersAccuracy());
+print('Validation consumers accuracy:', testAccuracy.consumersAccuracy());
+print('Validation kappa', testAccuracy.kappa());
+
 
 //-------------- CREATE A LEGEND ------------------
 
