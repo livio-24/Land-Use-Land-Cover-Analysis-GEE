@@ -1,6 +1,5 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var trueColVis = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.8321419775485992,"max":1.419758039712906,"gamma":1},
-    ndbiVis = {"opacity":1,"bands":["NDBI"],"min":-0.13909015748649836,"max":0.011268583498895167,"palette":["ffffff","ff0000"]},
+var ndbiVis = {"opacity":1,"bands":["NDBI"],"min":-0.13909015748649836,"max":0.011268583498895167,"palette":["ffffff","ff0000"]},
     ndviVis = {"opacity":1,"bands":["NDVI"],"min":0.054412869438529014,"max":0.40175328992307185,"palette":["ffffff","008000"]},
     roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary"),
     dem = ee.Image("CGIAR/SRTM90_V4"),
@@ -5155,8 +5154,10 @@ var trueColVis = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.83214197
             {
               "Class": 3,
               "system:index": "201"
-            })]);
+            })]),
+    trueColVis = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.04002412499999999,"max":0.159682125,"gamma":1};
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+/*
 function maskClouds(image) {
   // Bits 3 and 5 are cloud shadow and cloud, respectively.
   var cloudShadowBitMask = 1 << 3;
@@ -5170,6 +5171,26 @@ function maskClouds(image) {
   return image.updateMask(mask).divide(10000)
       //.select("SR_B[0-9]*")
       .copyProperties(image, ["system:time_start"]);
+}
+*/
+function maskClouds(col) {
+  // Bits 3 and 5 are cloud shadow and cloud, respectively.
+  var cloudShadowBitMask = (1 << 3);
+  var cloudsBitMask = (1 << 5);
+  // Get the pixel QA band.
+  var qa = col.select('QA_PIXEL');
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+               .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  return col.updateMask(mask);
+}
+
+// Applies scaling factors.
+function applyScaleFactors(image) {
+  var opticalBands = image.select('SR_B.').multiply(0.0000275).add(-0.2);
+  var thermalBands = image.select('ST_B.*').multiply(0.00341802).add(149.0);
+  return image.addBands(opticalBands, null, true)
+              .addBands(thermalBands, null, true);
 }
 
 // adding spectral indices to bands
@@ -5192,6 +5213,7 @@ var elevation = function(img){
 var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
          .filterDate("2023-01-01", "2023-12-30")
          .filterMetadata("CLOUD_COVER", "less_than", 30)
+         .map(applyScaleFactors)
          .map(maskClouds)
          .map(indices)
          .map(elevation)
@@ -5201,6 +5223,7 @@ var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
 var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
          .filterDate("2014-01-01", "2014-12-30")
          .filterMetadata("CLOUD_COVER", "less_than", 30)
+         .map(applyScaleFactors)
          .map(maskClouds)
          .map(indices)
          .map(elevation)
@@ -5400,39 +5423,41 @@ print('Max NDVI:', maxNDVI);
 //Calculating fraction of vegetation
 var fv = (ndvi.subtract(minNDVI).divide(maxNDVI.subtract(minNDVI))).pow(ee.Number(2)).rename('FV');
 print('Fractional vegetation:', fv);
-Map.addLayer(fv, {}, 'fv');
+//Map.addLayer(fv, {}, 'fv');
 
 //Calculating Emissivity
 var a = ee.Number(0.004);
 var b = ee.Number(0.986);
-var EM = fv.multiply(a).add(b).rename('EM');
-Map.addLayer(EM, {}, 'EM');
+var em = fv.multiply(a).add(b).rename('EM');
+//Map.addLayer(em, {}, 'EM');
 
-//Final LST
-var LST = thermal.expression(
-  '(Tb / (1 + (0.00115 * (Tb/0.48359547432)) * log(Em))) - 273.15',
-  {
-  'Tb': thermal.select('thermal'),
-  'Em': EM
+// Now, lets calculate the land surface temperature (LST)
+
+// Formula: (TB / (1 + (λ * (TB / 1.438)) * ln(em))) - 273.15
+var lst = thermal.expression(
+  '(TB / (1 + (0.00115 * (TB / 0.48359547432)) * log(em))) - 273.15', {
+    'TB': thermal.select('thermal'), // Select the thermal band (TB)
+    'em': em // Assign emissivity (em)
   }).rename('LST');
 
-var lstViz = {
-  min: 15,
-  max: 35,
+// Add the LST Layer to the Map with Custom Visualization Parameters
+Map.addLayer(lst, {
+  min: 18.47, // Minimum LST value
+  max: 42.86, // Maximum LST value
   palette: [
-    '040274','040281','0502a3','0502b8','0502ce','0502e6',
-    '0602ff','235cb1','307ef3','269db1','30c8e2','32d3ef',
-    '3be285','3ff38f','86e26f','3ae237','b5e22e','d6e21f',
-    'fff705','ffd611','ffb613','ff8b13','ff6e08','ff500d',
-    'ff0000','de0101','c21301','a71001','911003',
-  ]};
+    '040274', '040281', '0502a3', '0502b8', '0502ce', '0502e6',
+    '0602ff', '235cb1', '307ef3', '269db1', '30c8e2', '32d3ef',
+    '3be285', '3ff38f', '86e26f', '3ae237', 'b5e22e', 'd6e21f',
+    'fff705', 'ffd611', 'ffb613', 'ff8b13', 'ff6e08', 'ff500d',
+    'ff0000', 'de0101', 'c21301', 'a71001', '911003'
+  ]}, 'Land Surface Temperature 2023');
 
-Map.addLayer(LST, lstViz, 'LST');
 
-var averageLST = LST.reduceRegion({
+var averageLST = lst.reduceRegion({
   reducer: ee.Reducer.mean(),
   geometry: roi,
   scale: 30}).values().getInfo()[0];
 
-print(averageLST)
+print(averageLST);
+
 Map.centerObject(roi);
