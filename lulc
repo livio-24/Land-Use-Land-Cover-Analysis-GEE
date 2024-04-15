@@ -5451,7 +5451,7 @@ Map.addLayer(lst, {
     '3be285', '3ff38f', '86e26f', '3ae237', 'b5e22e', 'd6e21f',
     'fff705', 'ffd611', 'ffb613', 'ff8b13', 'ff6e08', 'ff500d',
     'ff0000', 'de0101', 'c21301', 'a71001', '911003'
-  ]}, 'Land Surface Temperature 2023');
+  ]}, 'Land Surface Temperature');
 
 
 var averageLST = lst.reduceRegion({
@@ -5459,6 +5459,6 @@ var averageLST = lst.reduceRegion({
   geometry: roi,
   scale: 30}).values().getInfo()[0];
 
-print(averageLST);
+print('Average LST:',averageLST);
 
 Map.centerObject(roi);
