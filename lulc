@@ -1,7 +1,5 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var ndbiVis = {"opacity":1,"bands":["NDBI"],"min":-0.13909015748649836,"max":0.011268583498895167,"palette":["ffffff","ff0000"]},
-    ndviVis = {"opacity":1,"bands":["NDVI"],"min":0.054412869438529014,"max":0.40175328992307185,"palette":["ffffff","008000"]},
-    roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary"),
+var roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary"),
     dem = ee.Image("CGIAR/SRTM90_V4"),
     urban = 
     /* color: #d63000 */
@@ -5155,7 +5153,10 @@ var ndbiVis = {"opacity":1,"bands":["NDBI"],"min":-0.13909015748649836,"max":0.0
               "Class": 3,
               "system:index": "201"
             })]),
-    trueColVis = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.04002412499999999,"max":0.159682125,"gamma":1};
+    trueColVis = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.04002412499999999,"max":0.159682125,"gamma":1},
+    falseCol543Vis = {"opacity":1,"bands":["SR_B5","SR_B4","SR_B3"],"min":0.03359957499999999,"max":0.37287917500000006,"gamma":1},
+    ndviVisParam = {"opacity":1,"bands":["NDVI"],"min":0.08346750602126121,"max":0.8115821181237698,"palette":["ffffff","008000"]},
+    ndbiVisParam = {"opacity":1,"bands":["NDBI"],"min":-0.41232460618019107,"max":0.15240275740623474,"palette":["ffffff","ff0000"]};
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 /*
 function maskClouds(image) {
@@ -5234,12 +5235,12 @@ var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
 print(l8);
 
 Map.addLayer(l8, trueColVis, 'Natural colour');
-Map.addLayer(l8, {}, 'False color');
+Map.addLayer(l8, falseCol543Vis, 'False color (543)');
 
-Map.addLayer(l8_2, trueColVis, 'Natural colour_2014');
+//Map.addLayer(l8_2, trueColVis, 'Natural colour_2014');
 
-Map.addLayer(l8.select('NDVI'), ndviVis, 'NDVI');
-Map.addLayer(l8.select('NDBI'), ndbiVis, 'NDBI');
+Map.addLayer(l8.select('NDVI'), ndviVisParam, 'NDVI');
+Map.addLayer(l8.select('NDBI'), ndbiVisParam, 'NDBI');
 
 
 // Visualization parameters for elevation
