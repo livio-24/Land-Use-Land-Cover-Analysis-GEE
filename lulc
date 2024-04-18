@@ -5158,7 +5158,8 @@ var roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary"),
     ndviVisParam = {"opacity":1,"bands":["NDVI"],"min":0.08346750602126121,"max":0.8115821181237698,"palette":["ffffff","008000"]},
     ndbiVisParam = {"opacity":1,"bands":["NDBI"],"min":-0.41232460618019107,"max":0.15240275740623474,"palette":["ffffff","ff0000"]},
     roi2 = ee.FeatureCollection("projects/ee-vonalivio/assets/pns"),
-    pnc = ee.FeatureCollection("projects/ee-vonalivio/assets/pnc");
+    pnc = ee.FeatureCollection("projects/ee-vonalivio/assets/pnc"),
+    trueColVis2 = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":0.0008718249999999958,"max":0.12419942499999999,"gamma":1};
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 /*
 function maskClouds(image) {
@@ -5205,6 +5206,13 @@ var indices = function(img){
   return img.addBands(ndvi).addBands(ndbi).addBands(gndvi);
 };
 
+var indices_2000 = function(img){
+  var ndvi = img.normalizedDifference(['SR_B4', 'SR_B3']).rename('NDVI');
+  var ndbi = img.normalizedDifference(['SR_B5', 'SR_B4']).rename('NDBI');
+  var gndvi = img.normalizedDifference(['SR_B5', 'SR_B2']).rename('GNDVI');
+  
+  return img.addBands(ndvi).addBands(ndbi).addBands(gndvi);
+};
 // adding elevation and slope to bands
 var elevation = function(img){
   var elevation = dem.select('elevation');
@@ -5222,6 +5230,17 @@ var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
          .map(elevation)
          .median()
          .clip(roi);
+         
+         
+var l7_2000 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") 
+         .filterDate("2000-01-01", "2000-12-30")
+         .filterMetadata("CLOUD_COVER", "less_than", 30)
+         .map(applyScaleFactors)
+         .map(maskClouds)
+         .map(indices_2000)
+         .map(elevation)
+         .median()
+         .clip(roi);
 
 var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
          .filterDate("2020-01-01", "2020-12-30")
@@ -5236,12 +5255,16 @@ var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
   
 print(l8);
 
-Map.addLayer(l8, trueColVis, 'Natural colour');
+Map.addLayer(l8, trueColVis, 'Natural colour roi1 2020');
+Map.addLayer(l7_2000, trueColVis, 'Natural colour roi1 2010');
+
 Map.addLayer(l8, falseCol543Vis, 'False color (543)');
 
-Map.addLayer(l8_2, {}, 'pnc');
+Map.addLayer(l8_2, trueColVis2, 'Natural color roi2');
 
 Map.addLayer(l8.select('NDVI'), ndviVisParam, 'NDVI');
+Map.addLayer(l8_2.select('NDVI'), ndviVisParam, 'NDVI roi2');
+
 Map.addLayer(l8.select('NDBI'), ndbiVisParam, 'NDBI');
 
 
@@ -5324,6 +5347,40 @@ print('Validation consumers accuracy:', testAccuracy.consumersAccuracy());
 print('Validation kappa', testAccuracy.kappa());
 
 
+//------------------------- TRAINING 2000 ---------------------------------------
+
+var sample = l7_2000.sampleRegions({
+  collection: training,
+  properties: ['Class'],
+  scale: 30
+})
+
+//print(sample);
+//print('Samples size:', sample.size());
+// The randomColumn() method will add a column of uniform random
+// numbers in a column named 'random' by default.
+sample = sample.randomColumn();
+
+var split = 0.7;  // Roughly 70% training, 30% testing.
+var trainSet = sample.filter(ee.Filter.lt('random', split));
+var validationSet = sample.filter(ee.Filter.gte('random', split));
+
+//bands (features) used for training the model
+var trainingBands = ['SR_B1', 'SR_B2', 'SR_B3', 'SR_B4', 'SR_B5', 'SR_B7', 'NDVI', 'NDBI', 'GNDVI', 'elevation', 'slope']
+//print(l8.bandNames().slice(1));
+var classifier2000 = ee.Classifier.smileRandomForest(100).train({
+  features: trainSet,
+  classProperty: 'Class',
+  inputProperties: trainingBands
+});
+
+var classified_2000 = l7_2000.classify(classifier2000);
+//Add final map to the display
+Map.addLayer(classified_2000, {min:0, max:3, palette:['red','blue', 'green', 'yellow']} , "Land Classification 2000");
+
+//Determine the Land Cover Change between 2001 and 2019
+var LULC_Change = classified.add(classified_2000);
+Map.addLayer(LULC_Change.clip(roi), {min:0, max:3, palette:['red','blue', 'green', 'yellow']}, 'LULC Change Between 2000 and 2020');
 //-------------- CREATE A LEGEND ------------------
 
 //set position of panel
@@ -5463,4 +5520,4 @@ var averageLST = lst.reduceRegion({
 
 print('Average LST:',averageLST);
 
-Map.centerObject(pnc);
+Map.centerObject(roi);
