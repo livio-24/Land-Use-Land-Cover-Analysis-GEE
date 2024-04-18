@@ -5256,14 +5256,14 @@ var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
 print(l8);
 
 Map.addLayer(l8, trueColVis, 'Natural colour roi1 2020');
-Map.addLayer(l7_2000, trueColVis, 'Natural colour roi1 2010');
+//Map.addLayer(l7_2000, trueColVis, 'Natural colour roi1 2010');
 
 Map.addLayer(l8, falseCol543Vis, 'False color (543)');
 
 Map.addLayer(l8_2, trueColVis2, 'Natural color roi2');
 
 Map.addLayer(l8.select('NDVI'), ndviVisParam, 'NDVI');
-Map.addLayer(l8_2.select('NDVI'), ndviVisParam, 'NDVI roi2');
+//Map.addLayer(l8_2.select('NDVI'), ndviVisParam, 'NDVI roi2');
 
 Map.addLayer(l8.select('NDBI'), ndbiVisParam, 'NDBI');
 
@@ -5325,6 +5325,14 @@ var classifier = ee.Classifier.smileRandomForest(100).train({
 
 var classified = l8.classify(classifier);
 
+// Export the image, specifying the CRS, transform, and region.
+Export.image.toDrive({
+  image: classified,
+  description: 'imageToDriveExample_transform',
+  crs: 'EPSG:4326',
+  scale:30,
+  region: roi
+});
 //----------------------- ACCURACY ASSESMENT ----------------------------------
 
 // Get a confusion matrix representing resubstitution accuracy.
@@ -5349,7 +5357,7 @@ print('Validation kappa', testAccuracy.kappa());
 
 //------------------------- TRAINING 2000 ---------------------------------------
 
-var sample = l7_2000.sampleRegions({
+var sample2000 = l7_2000.sampleRegions({
   collection: training,
   properties: ['Class'],
   scale: 30
@@ -5359,28 +5367,47 @@ var sample = l7_2000.sampleRegions({
 //print('Samples size:', sample.size());
 // The randomColumn() method will add a column of uniform random
 // numbers in a column named 'random' by default.
-sample = sample.randomColumn();
+sample2000 = sample2000.randomColumn();
 
 var split = 0.7;  // Roughly 70% training, 30% testing.
-var trainSet = sample.filter(ee.Filter.lt('random', split));
-var validationSet = sample.filter(ee.Filter.gte('random', split));
+var trainSet2000 = sample2000.filter(ee.Filter.lt('random', split));
+var validationSet2000 = sample2000.filter(ee.Filter.gte('random', split));
 
 //bands (features) used for training the model
-var trainingBands = ['SR_B1', 'SR_B2', 'SR_B3', 'SR_B4', 'SR_B5', 'SR_B7', 'NDVI', 'NDBI', 'GNDVI', 'elevation', 'slope']
+var trainingBands2000 = ['SR_B1', 'SR_B2', 'SR_B3', 'SR_B4', 'SR_B5', 'SR_B7', 'NDVI', 'NDBI', 'GNDVI', 'elevation', 'slope']
 //print(l8.bandNames().slice(1));
 var classifier2000 = ee.Classifier.smileRandomForest(100).train({
-  features: trainSet,
+  features: trainSet2000, 
   classProperty: 'Class',
-  inputProperties: trainingBands
+  inputProperties: trainingBands2000
 });
 
 var classified_2000 = l7_2000.classify(classifier2000);
 //Add final map to the display
 Map.addLayer(classified_2000, {min:0, max:3, palette:['red','blue', 'green', 'yellow']} , "Land Classification 2000");
 
-//Determine the Land Cover Change between 2001 and 2019
-var LULC_Change = classified.add(classified_2000);
-Map.addLayer(LULC_Change.clip(roi), {min:0, max:3, palette:['red','blue', 'green', 'yellow']}, 'LULC Change Between 2000 and 2020');
+//----------------------- ACCURACY ASSESMENT ----------------------------------
+
+// Get a confusion matrix representing resubstitution accuracy.
+var trainAccuracy2000 = classifier2000.confusionMatrix();
+print('Resubstitution error matrix 2000: ', trainAccuracy2000);
+print('Training overall accuracy 2000: ', trainAccuracy2000.accuracy());
+print('Training producers accuracy 2000:', trainAccuracy2000.producersAccuracy());
+print('Training consumers accuracy 2000:', trainAccuracy2000.consumersAccuracy());
+print('Training kappa 2000', trainAccuracy2000.kappa());
+
+// Classify the validation data.
+var validated2000 = validationSet2000.classify(classifier2000);
+
+// Get a confusion matrix representing expected accuracy.
+var testAccuracy2000 = validated2000.errorMatrix('Class', 'classification');
+print('Validation error matrix 2000: ', testAccuracy2000);
+print('Validation overall accuracy 2000: ', testAccuracy2000.accuracy());
+print('Validation producers accuracy 2000:', testAccuracy2000.producersAccuracy());
+print('Validation consumers accuracy 2000:', testAccuracy2000.consumersAccuracy());
+print('Validation kappa 2000', testAccuracy2000.kappa());
+
+
 //-------------- CREATE A LEGEND ------------------
 
 //set position of panel
@@ -5520,4 +5547,55 @@ var averageLST = lst.reduceRegion({
 
 print('Average LST:',averageLST);
 
+
+//--------------------------- CHANGE DETECTION ----------------------------------
+// 0-3 and 1-4
+//reclassify
+var classes2020 = classified.remap([0,1,2,3],[1,2,3,4]);
+var classes2000 = classified_2000.remap([0,1,2,3],[1,2,3,4]);
+
+//show all change area
+var changed = classes2020.subtract(classes2000).neq(0);
+Map.addLayer(changed, {min:0, max:1, palette:['white', 'red']}, 'Change');
+
+var merged = classes2000.multiply(100).add(classes2020).rename('transition');
+print(merged);
+
+//pixel count transition per class
+var transitionMatrix = merged.reduceRegion({
+  reducer: ee.Reducer.frequencyHistogram(),
+  geometry: roi,
+  scale: 30});
+
+print(transitionMatrix.get('transition'));
+
+var areaImage = ee.Image.pixelArea().divide(1e6).addBands(merged);
+
+var area = areaImage.reduceRegion({
+  reducer:ee.Reducer.sum().group({
+    groupField:1,
+    groupName:'transition'}),
+  geometry:roi,
+  scale:30});
+  
+print('transitions area:', area);
+  
 Map.centerObject(roi);
+
+var classAreaList = ee.List(area.get('groups'));
+
+var classAreaList = classAreaList.map(function(item){
+  var areaDict = ee.Dictionary(item);
+  var classNumber = ee.Number(areaDict.get('transition')).format();
+  var area = ee.Number(areaDict.get('sum')).divide(1e6);
+  
+  return ee.List([classNumber, area]);
+});
+
+var transition_area = ee.Dictionary(classAreaList.flatten());
+
+print('Transition area', transition_area);
+var roi_area = roi.geometry().area();
+var roi_area_sqKM = ee.Number(roi_area).divide(1e6).round();
+
+print('area in km2:',roi_area_sqKM);
