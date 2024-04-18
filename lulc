@@ -5386,6 +5386,14 @@ var classified_2000 = l7_2000.classify(classifier2000);
 //Add final map to the display
 Map.addLayer(classified_2000, {min:0, max:3, palette:['red','blue', 'green', 'yellow']} , "Land Classification 2000");
 
+// Export the image, specifying the CRS, transform, and region.
+Export.image.toDrive({
+  image: classified_2000,
+  description: 'lulc2000',
+  crs: 'EPSG:4326',
+  scale:30,
+  region: roi
+});
 //----------------------- ACCURACY ASSESMENT ----------------------------------
 
 // Get a confusion matrix representing resubstitution accuracy.
