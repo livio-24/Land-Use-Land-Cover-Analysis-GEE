@@ -5354,6 +5354,24 @@ print('Validation producers accuracy:', testAccuracy.producersAccuracy());
 print('Validation consumers accuracy:', testAccuracy.consumersAccuracy());
 print('Validation kappa', testAccuracy.kappa());
 
+var exportAccuracy = ee.Feature(null, {matrix: testAccuracy.array()});
+
+// Export the FeatureCollection.
+Export.table.toDrive({
+  collection: ee.FeatureCollection(exportAccuracy),
+  description: 'exportAccuracy',
+  fileFormat: 'CSV'
+});
+
+// Export error matrix and accuracy metrics to Drive
+Export.table.toDrive({
+  collection: ee.FeatureCollection([ee.Feature(null, {
+    'OverallAccuracy': testAccuracy.accuracy(),
+    'ErrorMatrix': testAccuracy.array().getInfo().toString()
+  })]),
+  description: 'LULC_Accuracy',
+  fileFormat: 'CSV'
+});
 
 //------------------------- TRAINING 2000 ---------------------------------------
 
