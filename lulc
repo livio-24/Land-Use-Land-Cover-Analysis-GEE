@@ -5373,6 +5373,28 @@ Export.table.toDrive({
   fileFormat: 'CSV'
 });
 
+var producersAccuracy = testAccuracy.producersAccuracy();
+Export.table.toDrive({
+  collection: ee.FeatureCollection(ee.Feature(null, {producersAccuracy: producersAccuracy})),
+  description: 'Producers_accuracy',
+  folder: 'GEE',
+  fileFormat: 'CSV',
+  selectors: ['producersAccuracy']
+});
+
+Export.table.toDrive({
+  collection: ee.FeatureCollection([
+    ee.Feature(null, {
+      'Accuracy': testAccuracy.accuracy(),
+      'Kappa': testAccuracy.kappa(),
+      'ProducerAccuracy': testAccuracy.producersAccuracy(),
+      'ConsumerAccuracy': testAccuracy.consumersAccuracy()
+    })
+  ]),
+  description: 'accuracy_metrics',
+  fileFormat: 'CSV'
+});
+
 //------------------------- TRAINING 2000 ---------------------------------------
 
 var sample2000 = l7_2000.sampleRegions({
