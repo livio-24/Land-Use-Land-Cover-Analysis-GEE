@@ -5222,7 +5222,7 @@ var elevation = function(img){
 };
 
 var l8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
-         .filterDate("2023-01-01", "2023-12-30")
+         .filterDate("2020-01-01", "2020-12-30")
          .filterMetadata("CLOUD_COVER", "less_than", 30)
          .map(applyScaleFactors)
          .map(maskClouds)
@@ -5572,6 +5572,76 @@ var averageLST = lst.reduceRegion({
   scale: 30}).values().getInfo()[0];
 
 print('Average LST:',averageLST);
+
+//--------------------------- LST 2000 -------------------------------------
+
+var ndvi = l7_2000.normalizedDifference(['SR_B4', 'SR_B3']).rename('NDVI');
+
+//select thermal band 10 (with brightness temperature)
+var thermal = l7_2000.select('ST_B6').rename('thermal');
+//var b10Params = {min: 291.918, max: 302.382, palette: ['blue', 'white', 'green']};
+print(thermal);
+//Map.addLayer(thermal, b10Params, 'thermal');
+
+//find the min and max of NDVI
+var minNDVI = ee.Number(ndvi.reduceRegion({
+  reducer: ee.Reducer.min(),
+  geometry: roi,
+  scale: 30,
+  maxPixels: 1e9
+}).values().get(0));
+
+print('Min NDVI:', minNDVI);
+
+var maxNDVI = ee.Number(ndvi.reduceRegion({
+  reducer: ee.Reducer.max(),
+  geometry: roi,
+  scale: 30,
+  maxPixels: 1e9
+}).values().get(0));
+
+print('Max NDVI:', maxNDVI);
+
+//Calculating fraction of vegetation
+var fv = (ndvi.subtract(minNDVI).divide(maxNDVI.subtract(minNDVI))).pow(ee.Number(2)).rename('FV');
+print('Fractional vegetation:', fv);
+//Map.addLayer(fv, {}, 'fv');
+
+//Calculating Emissivity
+var a = ee.Number(0.004);
+var b = ee.Number(0.986);
+var em = fv.multiply(a).add(b).rename('EM');
+//Map.addLayer(em, {}, 'EM');
+
+// Now, lets calculate the land surface temperature (LST)
+
+// Formula: (TB / (1 + (λ * (TB / 1.438)) * ln(em))) - 273.15
+var lst_2000 = thermal.expression(
+  '(TB / (1 + (0.00115 * (TB / 0.48359547432)) * log(em))) - 273.15', {
+    'TB': thermal.select('thermal'), // Select the thermal band (TB)
+    'em': em // Assign emissivity (em)
+  }).rename('LST');
+
+// Add the LST Layer to the Map with Custom Visualization Parameters
+Map.addLayer(lst_2000, {
+  min: 18.47, // Minimum LST value
+  max: 42.86, // Maximum LST value
+  palette: [
+    '040274', '040281', '0502a3', '0502b8', '0502ce', '0502e6',
+    '0602ff', '235cb1', '307ef3', '269db1', '30c8e2', '32d3ef',
+    '3be285', '3ff38f', '86e26f', '3ae237', 'b5e22e', 'd6e21f',
+    'fff705', 'ffd611', 'ffb613', 'ff8b13', 'ff6e08', 'ff500d',
+    'ff0000', 'de0101', 'c21301', 'a71001', '911003'
+  ]}, 'Land Surface Temperature 2000');
+
+
+var averageLST = lst.reduceRegion({
+  reducer: ee.Reducer.mean(),
+  geometry: roi,
+  scale: 30}).values().getInfo()[0];
+
+print('Average LST:',averageLST);
+
 
 
 //--------------------------- CHANGE DETECTION ----------------------------------
