@@ -5323,7 +5323,7 @@ var classifier = ee.Classifier.smileRandomForest(100).train({
   inputProperties: trainingBands
 });
 
-print(classifier.explain());
+print('feature importance classifier 2020:',classifier.explain().get('importance'));
 
 var classified = l8.classify(classifier);
 
@@ -5398,6 +5398,8 @@ var classifier2000 = ee.Classifier.smileRandomForest(100).train({
   classProperty: 'Class',
   inputProperties: trainingBands2000
 });
+
+print('feature importance classifier 2000:',classifier2000.explain().get('importance'));
 
 var classified_2000 = l7_2000.classify(classifier2000);
 //Add final map to the display
