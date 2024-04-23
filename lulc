@@ -5323,6 +5323,8 @@ var classifier = ee.Classifier.smileRandomForest(100).train({
   inputProperties: trainingBands
 });
 
+print(classifier.explain());
+
 var classified = l8.classify(classifier);
 
 // Export the image, specifying the CRS, transform, and region.
@@ -5356,31 +5358,6 @@ print('Validation kappa', testAccuracy.kappa());
 
 var exportAccuracy = ee.Feature(null, {matrix: testAccuracy.array()});
 
-// Export the FeatureCollection.
-Export.table.toDrive({
-  collection: ee.FeatureCollection(exportAccuracy),
-  description: 'exportAccuracy',
-  fileFormat: 'CSV'
-});
-
-// Export error matrix and accuracy metrics to Drive
-Export.table.toDrive({
-  collection: ee.FeatureCollection([ee.Feature(null, {
-    'OverallAccuracy': testAccuracy.accuracy(),
-    'ErrorMatrix': testAccuracy.array().getInfo().toString()
-  })]),
-  description: 'LULC_Accuracy',
-  fileFormat: 'CSV'
-});
-
-var producersAccuracy = testAccuracy.producersAccuracy();
-Export.table.toDrive({
-  collection: ee.FeatureCollection(ee.Feature(null, {producersAccuracy: producersAccuracy})),
-  description: 'Producers_accuracy',
-  folder: 'GEE',
-  fileFormat: 'CSV',
-  selectors: ['producersAccuracy']
-});
 
 Export.table.toDrive({
   collection: ee.FeatureCollection([
@@ -5527,7 +5504,7 @@ Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow'
 //Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']},'LULC2023');
  
 //---------------------- LST calculation ---------------------------------
-
+/*
 var ndvi = l8.normalizedDifference(['SR_B5', 'SR_B4']).rename('NDVI');
 
 //select thermal band 10 (with brightness temperature)
@@ -5664,7 +5641,7 @@ var averageLST = lst.reduceRegion({
 
 print('Average LST:',averageLST);
 
-
+*/
 
 //--------------------------- CHANGE DETECTION ----------------------------------
 // 0-3 and 1-4
