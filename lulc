@@ -5502,6 +5502,7 @@ Map.add(legend);
 
 //Add final map to the display
 Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']} , "Land Classification");
+Map.centerObject(roi);
 
 //Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']},'LULC2023');
  
@@ -5648,6 +5649,7 @@ print('Average LST:',averageLST);
 //--------------------------- CHANGE DETECTION ----------------------------------
 // 0-3 and 1-4
 //reclassify
+/*
 var classes2020 = classified.remap([0,1,2,3],[1,2,3,4]);
 var classes2000 = classified_2000.remap([0,1,2,3],[1,2,3,4]);
 
@@ -5696,3 +5698,4 @@ var roi_area = roi.geometry().area();
 var roi_area_sqKM = ee.Number(roi_area).divide(1e6).round();
 
 print('area in km2:',roi_area_sqKM);
+*/
