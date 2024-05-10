@@ -5177,6 +5177,7 @@ function maskClouds(image) {
       .copyProperties(image, ["system:time_start"]);
 }
 */
+
 function maskClouds(col) {
   // Bits 3 and 5 are cloud shadow and cloud, respectively.
   var cloudShadowBitMask = (1 << 3);
@@ -5213,6 +5214,7 @@ var indices_2000 = function(img){
   
   return img.addBands(ndvi).addBands(ndbi).addBands(gndvi);
 };
+
 // adding elevation and slope to bands
 var elevation = function(img){
   var elevation = dem.select('elevation');
@@ -5242,15 +5244,15 @@ var l7_2000 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2")
          .median()
          .clip(roi);
 
-var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
-         .filterDate("2020-01-01", "2020-12-30")
-         .filterMetadata("CLOUD_COVER", "less_than", 30)
-         .map(applyScaleFactors)
-         .map(maskClouds)
-         .map(indices)
-         .map(elevation)
-         .median()
-         .clip(pnc);
+// var l8_2 = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2") 
+//         .filterDate("2020-01-01", "2020-12-30")
+//         .filterMetadata("CLOUD_COVER", "less_than", 30)
+//         .map(applyScaleFactors)
+//         .map(maskClouds)
+//         .map(indices)
+//         .map(elevation)
+//         .median()
+//         .clip(pnc);
 
   
 print(l8);
@@ -5259,8 +5261,6 @@ Map.addLayer(l8, trueColVis, 'Natural colour roi1 2020');
 //Map.addLayer(l7_2000, trueColVis, 'Natural colour roi1 2010');
 
 Map.addLayer(l8, falseCol543Vis, 'False color (543)');
-
-Map.addLayer(l8_2, trueColVis2, 'Natural color roi2');
 
 Map.addLayer(l8.select('NDVI'), ndviVisParam, 'NDVI');
 //Map.addLayer(l8_2.select('NDVI'), ndviVisParam, 'NDVI roi2');
@@ -5285,22 +5285,14 @@ var slopeVis = {
 Map.addLayer(l8.select('elevation'), elevationVis, 'Elevation');
 Map.addLayer(l8.select('slope'), slopeVis, 'Slope');
 
-var dataset = ee.ImageCollection('ESA/WorldCover/v200').first();
-
-var visualization = {
-  bands: ['Map'],
-};
-
-Map.centerObject(dataset);
-
-Map.addLayer(dataset.clip(pnc), visualization, 'Landcover nps');
-             
+//--------------------------- TRAINING 2020 -----------------------------------------
+// training samples are manually collected from the map
 var training = urban.merge(water).merge(vegetation).merge(agricolture);
 var sample = l8.sampleRegions({
   collection: training,
   properties: ['Class'],
   scale: 30
-})
+});
 
 print(sample);
 print('Samples size:', sample.size());
@@ -5506,7 +5498,7 @@ Map.centerObject(roi);
 
 //Map.addLayer(classified, {min:0, max:3, palette:['red','blue', 'green', 'yellow']},'LULC2023');
  
-//---------------------- LST calculation ---------------------------------
+//---------------------- LST (Land Surface Temperature) calculation ---------------------------------
 /*
 var ndvi = l8.normalizedDifference(['SR_B5', 'SR_B4']).rename('NDVI');
 
