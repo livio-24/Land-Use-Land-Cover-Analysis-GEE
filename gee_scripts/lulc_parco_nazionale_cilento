@@ -1,0 +1,86 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var annual = ee.ImageCollection("projects/sat-io/open-datasets/GLC-FCS30D/annual"),
+    five_year = ee.ImageCollection("projects/sat-io/open-datasets/GLC-FCS30D/five-years-map"),
+    roi = ee.FeatureCollection("projects/ee-vonalivio/assets/milano_boundary"),
+    roi2 = ee.FeatureCollection("projects/ee-vonalivio/assets/pnc");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+var lulc_image_2000 = annual.mosaic().clip(roi2).select('b1');
+var lulc_image_2020 = annual.mosaic().clip(roi2).select('b21');
+
+var viz = {
+  min: 0,
+  max: 35,
+  palette: [
+    "ffff64",
+    "ffff64",
+    "ffff00",
+    "aaf0f0",
+    "4c7300",
+    "006400",
+    "a8c800",
+    "00a000",
+    "005000",
+    "003c00",
+    "286400",
+    "285000",
+    "a0b432",
+    "788200",
+    "966400",
+    "964b00",
+    "966400",
+    "ffb432",
+    "ffdcd2",
+    "ffebaf",
+    "ffd278",
+    "ffebaf",
+    "00a884",
+    "73ffdf",
+    "9ebb3b",
+    "828282",
+    "f57ab6",
+    "66cdab",
+    "444f89",
+    "c31400",
+    "fff5d7",
+    "dcdcdc",
+    "fff5d7",
+    "0046c8",
+    "ffffff",
+    "ffffff"
+]};
+
+
+// Definisci la mappatura per rimappare i valori delle classi in una sequenza continua
+var remap = {
+  inputClassValues: [10, 11, 12, 20, 51, 52, 61, 62, 71, 72, 81, 82, 91, 92, 120, 121, 122, 130, 140, 150, 152, 153, 181, 182, 183, 184, 185, 186, 187, 190, 200, 201, 202, 210, 220, 0],
+  outputClassValues: ee.List.sequence(0, 35), // Sequenza continua da 0 a 35
+  defaultValue: 255 // Valore di default per i pixel che non corrispondono a nessuna delle classi definite
+};
+
+// Rimappa l'immagine
+var remapped_image_2000 = lulc_image_2000.remap(remap.inputClassValues, remap.outputClassValues, remap.defaultValue);
+var remapped_image_2020 = lulc_image_2020.remap(remap.inputClassValues, remap.outputClassValues, remap.defaultValue);
+
+Map.addLayer(remapped_image_2020, viz, 'lulc 2020');
+Map.addLayer(remapped_image_2000, viz, 'lulc 2000');
+
+// Export the image, specifying the CRS, transform, and region.
+Export.image.toDrive({
+  image: remapped_image_2000,
+  description: 'lulc 2000 Parco Nazionale del Cilento',
+  crs: 'EPSG:4326',
+  scale:30,
+  region: roi2
+});
+
+// Export the image, specifying the CRS, transform, and region.
+Export.image.toDrive({
+  image: remapped_image_2020,
+  description: 'lulc 2020 Parco Nazionale del Cilento',
+  crs: 'EPSG:4326',
+  scale:30,
+  region: roi2
+});
+Map.centerObject(roi2);
+print(annual);
