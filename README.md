@@ -50,3 +50,14 @@ Vengono eseguiti i seguenti step per ciascuna mappa ottenuta dalla classificazio
 - step 5: Intersect dei 2 vector files ottenuti per fare change detection
 - step 6: Dallo step 5 otteniamo un nuovo file in cui aggiungiamo come attributo l'area di cambiamento in km^2 per ciascuna coppia di classi (es. urban-water, urban-agricolture, ecc... )
 - step 7: Esportazione in excel e visualizzazione dei dati ottenuti dall'analisi
+
+## Output:
+
+![lulc_change_area_milano](/plots/plot_lulc_change_area_milano.png)
+*lulc change area Milano*
+
+![lulc_2000vs2020_milano](plots/plot_lulc_2000vs2020_milano.png)
+*lulc 2000 vs 2020 Milano*
+
+![lulc_2000vs2020_cilento](plots/plot_lulc_2000vs2020_cilento.png)
+*lulc 2000 vs 2020 Parco Nazionale del Cilento*
