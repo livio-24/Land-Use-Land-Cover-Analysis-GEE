@@ -1,4 +1,10 @@
-# Land-Use-Land-Cover-Analysis-GEE
+# Overview progetto
+<p align="center">
+   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7iGyu7vY7m_foLvqjT5JOGCFtyvuXfyIsg&s" alt="GEE, QGIS logo" width="400" height="auto">
+</p>
+
+<p align="center"><em>Tecnologie utilizzate, Google Earth Engine (GEE) e QGIS.</em></p>
+
 
 Il progetto consiste nell'effettuare una LULC (Land Use Land Cover) change analysis, ossia analizzare come l'uso del suolo cambia nel tempo, in Google Earth Engine (GEE).
 
