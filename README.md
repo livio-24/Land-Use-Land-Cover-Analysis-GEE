@@ -36,6 +36,12 @@ Questo progetto esegue la classificazione dell'uso del suolo utilizzando immagin
 - Mappe di classificazione dell'uso del suolo per il 2000 e il 2020.
 - Metriche di accuratezza per entrambi i periodi.
 
+  ![lulc_milano_2000](/plots/lulc_milano_2000.png)
+*lulc Milano 2000 in GEE*
+
+![lulc_milano_2020](/plots/lulc_milano_2020.png)
+*lulc Milano 2020 in GEE*
+
 # FASE 2. Land Cover Change Analysis in QGIS
 In questa seconda fase vengono utilizzati gli strumenti messi a disposizione da QGIS per effettuare un'analisi sui cambiamenti.
 
