@@ -48,6 +48,31 @@ Questo progetto esegue la classificazione dell'uso del suolo utilizzando immagin
 ![lulc_milano_2020](/plots/lulc_milano_2020.png)
 *lulc Milano 2020 in GEE*
 
+#### CA e PA Random Forest 2000
+
+| CLASS        | CONSUMERS ACCURACY | PRODUCERS ACCURACY |
+|--------------|---------------------|---------------------|
+| URBAN        | 0.91                | 0.88                |
+| WATER        | 0.96                | 0.90                |
+| VEGETATION   | 0.77                | 0.86                |
+| AGRICULTURE  | 0.92                | 0.86                |
+
+#### CA e PA Random Forest 2020
+
+| CLASS       | CONSUMERS ACCURACY | PRODUCERS ACCURACY |
+|-------------|--------------------|--------------------|
+| URBAN       | 0.90               | 0.93               |
+| WATER       | 0.92               | 0.98               |
+| VEGETATION  | 0.91               | 0.87               |
+| AGRICOLTURE | 0.87               | 0.85               |
+
+#### OA e KAPPA 2000 vs 2020
+
+| YEAR | OVERALL ACCURACY | KAPPA |
+|------|------------------|-------|
+| 2020 | 0.90             | 0.87  |
+| 2000 | 0.88             | 0.83  |
+
 # FASE 2. Land Cover Change Analysis in QGIS
 In questa seconda fase vengono utilizzati gli strumenti messi a disposizione da QGIS per effettuare un'analisi sui cambiamenti.
 
